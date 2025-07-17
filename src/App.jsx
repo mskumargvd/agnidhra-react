@@ -119,7 +119,23 @@ const faqs = [
   { q: "What is the format of the training?", a: "Our training is a blend of live online classes led by industry experts and hands-on labs. You will also get access to recorded sessions and learning materials through our LMS." },
 ];
 
+const pageBackgrounds = {
+    home: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+    'cyber-security': 'https://images.unsplash.com/photo-1544214224-42d38b4a4512?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+    'cloud-computing': 'https://images.unsplash.com/photo-1549216998-31e31b03f03b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+    'devops': 'https://images.unsplash.com/photo-1580894742597-8798991d1b3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+    'ai': 'https://images.unsplash.com/photo-1534723452862-4c874018d66d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+    'data-engineering': 'https://images.unsplash.com/photo-1558494949-7e3352843f39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+    default: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+};
+
 // --- REUSABLE & LAYOUT COMPONENTS ---
+
+const PageWrapper = ({ bgImage, children }) => (
+    <div className="page-wrapper" style={{ backgroundImage: `url(${bgImage})` }}>
+        <div className="page-content">{children}</div>
+    </div>
+);
 
 const Header = ({ navigateTo, activePage }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
