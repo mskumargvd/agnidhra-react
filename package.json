@@ -1,7 +1,7 @@
 {
   "name": "agnidhra-website",
   "private": true,
-  "version": "9.0.0",
+  "version": "9.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "nodemailer": "^6.9.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -24,6 +25,6 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
-    "vite": "^7.0.5"
+    "vite": "^4.4.5"
   }
 }
