@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 /* ======================================================================
-  GLOBAL STYLES (index.css) - V9.1
+  GLOBAL STYLES (index.css) - V10
 ======================================================================
 */
 
@@ -133,4 +133,28 @@ body {
 .scroll-arrow {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+}
+
+/* Thematic Page Backgrounds */
+.page-wrapper {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+}
+
+.page-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(20, 25, 35, 0.85); /* Dark overlay for readability */
+    z-index: 1;
+}
+
+.page-content {
+    position: relative;
+    z-index: 2;
 }
