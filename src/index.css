@@ -1,0 +1,136 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* ======================================================================
+  GLOBAL STYLES (index.css) - V9.1
+======================================================================
+*/
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #1f2937;
+    color: #d1d5db;
+}
+
+.nav-link {
+    transition: color 0.3s ease-in-out, border-bottom-color 0.3s ease-in-out;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #ff7f50;
+    border-bottom-color: #ff7f50;
+}
+
+.course-card, .blog-card, .contact-form, .testimonial-card, .instructor-card, .faq-item {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+}
+
+.course-card:hover, .blog-card:hover, .testimonial-card:hover, .instructor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgb(255 127 80 / 0.1), 0 4px 6px -4px rgb(255 127 80 / 0.1);
+}
+
+.scroll-btn {
+    position: fixed;
+    background-color: #ff7f50;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 1000;
+}
+
+#back-to-top { bottom: 20px; right: 20px; }
+#go-to-bottom { bottom: 20px; left: 20px; }
+
+.scroll-btn.show { 
+    display: flex;
+    opacity: 1; 
+}
+
+.scroll-btn.hide { 
+    opacity: 0; 
+    visibility: hidden;
+}
+
+.content-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.content-section li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.content-section li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #ff7f50;
+    font-weight: bold;
+}
+
+.topic-description {
+    margin-left: 1.5rem;
+    padding-left: 0;
+    font-size: 0.9rem;
+    color: #9ca3af;
+    border-left: 2px solid #4b5563;
+    padding-left: 1rem;
+    margin-top: 0.25rem;
+}
+
+/* Custom scrollbar for testimonials */
+.testimonial-scroller {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.testimonial-scroller::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+
+/* FAQ Accordion Styles */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.faq-answer.open {
+    max-height: 200px; /* Adjust as needed */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.faq-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+.faq-icon.open {
+    transform: rotate(180deg);
+}
+
+/* Testimonial Scroller Arrows */
+.testimonial-container:hover .scroll-arrow {
+    opacity: 1;
+}
+
+.scroll-arrow {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
