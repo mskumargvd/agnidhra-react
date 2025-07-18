@@ -56,10 +56,11 @@ export default function App() {
                     return <NotFoundPage navigateTo={navigateTo} />;
             }
         };
-
-        // The HomePage manages its own background sections, so we don't wrap it.
+        
+        // The HomePage has its own complex layout and doesn't need a single wrapper.
+        // All other pages will get the thematic background.
         if (page === 'home') {
-            return pageContent();
+            return <div className="page-wrapper" style={{ backgroundImage: `url(${pageBackgrounds.home})` }}><div className="page-content">{pageContent()}</div></div>;
         }
 
         return <PageWrapper bgImage={bgImage}>{pageContent()}</PageWrapper>;
