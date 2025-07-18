@@ -27,52 +27,41 @@ export default function App() {
     };
 
     const renderPage = () => {
-        const pageId = page;
-        const bgImage = pageBackgrounds[pageId] || pageBackgrounds.default;
-
-        const pageContent = () => {
-            switch (page) {
-                case 'home':
-                    return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
-                case 'news':
-                    return <NewsPage />;
-                case 'cyber-security':
-                    return <CyberSecurityPage navigateTo={navigateTo} />;
-                case 'cloud-computing':
-                    return <CloudComputingPage navigateTo={navigateTo} />;
-                case 'devops':
-                    return <DevOpsPage navigateTo={navigateTo} />;
-                case 'ai':
-                    return <AIPage navigateTo={navigateTo} />;
-                case 'data-engineering':
-                    return <DataEngineeringPage navigateTo={navigateTo} />;
-                case 'disclaimer':
-                    return <DisclaimerPage />;
-                case 'terms':
-                    return <TermsPage />;
-                case 'submit-testimonial':
-                    return <SubmitTestimonialPage />;
-                default:
-                    return <NotFoundPage navigateTo={navigateTo} />;
-            }
-        };
-        
-        // The HomePage has its own complex layout and doesn't need a single wrapper.
-        // All other pages will get the thematic background.
-        if (page === 'home') {
-            return <div className="page-wrapper" style={{ backgroundImage: `url(${pageBackgrounds.home})` }}><div className="page-content">{pageContent()}</div></div>;
+        switch (page) {
+            case 'home':
+                return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
+            case 'news':
+                return <NewsPage />;
+            case 'cyber-security':
+                return <CyberSecurityPage navigateTo={navigateTo} />;
+            case 'cloud-computing':
+                return <CloudComputingPage navigateTo={navigateTo} />;
+            case 'devops':
+                return <DevOpsPage navigateTo={navigateTo} />;
+            case 'ai':
+                return <AIPage navigateTo={navigateTo} />;
+            case 'data-engineering':
+                return <DataEngineeringPage navigateTo={navigateTo} />;
+            case 'disclaimer':
+                return <DisclaimerPage />;
+            case 'terms':
+                return <TermsPage />;
+            case 'submit-testimonial':
+                return <SubmitTestimonialPage />;
+            default:
+                return <NotFoundPage navigateTo={navigateTo} />;
         }
-
-        return <PageWrapper bgImage={bgImage}>{pageContent()}</PageWrapper>;
     };
 
+    const bgImage = pageBackgrounds[page] || pageBackgrounds.default;
+
     return (
-        <div className="bg-gray-800 text-gray-200">
+        <PageWrapper bgImage={bgImage}>
             <Header navigateTo={navigateTo} activePage={page} />
             {renderPage()}
             <Footer navigateTo={navigateTo} />
             <ScrollButtons />
-        </div>
+        </PageWrapper>
     );
 }
 
@@ -139,7 +128,7 @@ const pageBackgrounds = {
     'devops': 'https://images.unsplash.com/photo-1580894742597-8798991d1b3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     'ai': 'https://images.unsplash.com/photo-1534723452862-4c874018d66d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     'data-engineering': 'https://images.unsplash.com/photo-1558494949-7e3352843f39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    default: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+    default: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
 };
 
 // --- REUSABLE & LAYOUT COMPONENTS ---
@@ -465,7 +454,7 @@ const HomePage = ({ navigateTo, initialCourse }) => (
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">Master in-demand skills in Cyber Security, Cloud Computing, and DevOps through expert-led, hands-on training.</p>
             <a href="#courses" onClick={(e) => { e.preventDefault(); document.getElementById('courses').scrollIntoView({ behavior: 'smooth' }); }} className="mt-8 inline-block bg-[#ff7f50] text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-opacity-90 transition-colors duration-300">Explore Courses</a>
         </section>
-        <section id="about" className="py-20 border-t border-gray-700">
+        <section id="about" className="py-20 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm">
             <div className="max-w-4xl mx-auto text-center">
                 <h2 className="text-3xl font-bold text-white mb-4">About Us</h2>
                 <p className="text-lg text-gray-300 mb-8">
@@ -474,7 +463,7 @@ const HomePage = ({ navigateTo, initialCourse }) => (
                 <img src="https://placehold.co/150x150/374151/ff7f50?text=AT" alt="Agnidhra Technologies Logo" className="w-32 h-32 rounded-full mx-auto shadow-lg"/>
             </div>
         </section>
-        <section id="instructors" className="py-20 border-t border-gray-700">
+        <section id="instructors" className="py-20 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm">
             <div className="max-w-6xl mx-auto text-center">
                 <h2 className="text-3xl font-bold text-white mb-12">Meet Our Instructors</h2>
                 <div className="grid md:grid-cols-3 gap-8">
@@ -484,7 +473,7 @@ const HomePage = ({ navigateTo, initialCourse }) => (
                 </div>
             </div>
         </section>
-        <section id="courses" className="py-20 border-t border-gray-700">
+        <section id="courses" className="py-20 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm">
             <div className="max-w-6xl mx-auto">
                 <h2 className="text-3xl font-bold text-center text-white mb-12">Trainings Offered</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -498,13 +487,13 @@ const HomePage = ({ navigateTo, initialCourse }) => (
                 </div>
             </div>
         </section>
-        <section id="testimonials" className="py-20 border-t border-gray-700">
+        <section id="testimonials" className="py-20 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm">
             <div className="max-w-6xl mx-auto text-center">
                 <h2 className="text-3xl font-bold text-white mb-12">What Our Students Say</h2>
                 <Testimonials />
             </div>
         </section>
-        <section id="faq" className="py-20 border-t border-gray-700">
+        <section id="faq" className="py-20 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm">
             <div className="max-w-4xl mx-auto">
                 <h2 className="text-3xl font-bold text-center text-white mb-12">Frequently Asked Questions</h2>
                 <div className="space-y-4">
@@ -514,7 +503,7 @@ const HomePage = ({ navigateTo, initialCourse }) => (
                 </div>
             </div>
         </section>
-        <section id="contact" className="py-20 border-t border-gray-700">
+        <section id="contact" className="py-20 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm">
             <ContactForm initialCourse={initialCourse} />
         </section>
     </main>
@@ -527,11 +516,11 @@ const CyberSecurityPage = ({ navigateTo }) => (
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">Your gateway to becoming a certified security professional, with a primary focus on SOC analysis.</p>
         </section>
         <div className="max-w-4xl mx-auto space-y-8">
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">What is Cyber Security?</h2>
                 <p className="text-gray-300">Cybersecurity is the practice of protecting systems, networks, and programs from digital attacks. These cyberattacks are usually aimed at accessing, changing, or destroying sensitive information; extorting money from users; or interrupting normal business processes. Implementing effective cybersecurity measures is particularly challenging today because there are more devices than people, and attackers are becoming more innovative.</p>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Who is this course for?</h2>
                 <ul className="list-disc pl-5 text-gray-300 space-y-2">
                     <li>IT professionals looking to transition into a cybersecurity role.</li>
@@ -540,7 +529,7 @@ const CyberSecurityPage = ({ navigateTo }) => (
                     <li>Anyone passionate about technology and looking for a challenging and rewarding career.</li>
                 </ul>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Career Paths in Cyber Security</h2>
                 <div className="grid md:grid-cols-2 gap-8">
                     <div>
@@ -565,11 +554,11 @@ const CyberSecurityPage = ({ navigateTo }) => (
                     </div>
                 </div>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Primary Focus: SOC Analyst</h2>
                 <p className="text-gray-300">This program is primarily designed to build a strong foundation for a career as a Security Operations Center (SOC) Analyst. A SOC Analyst is the first line of defense, responsible for monitoring and analyzing an organization's security posture on an ongoing basis. You will learn to detect, analyze, and respond to cybersecurity incidents using a combination of cutting-edge technology and a strong foundational knowledge of threats and vulnerabilities.</p>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-600 pb-4">Course Curriculum & Tools</h2>
                 <div className="space-y-8">
                     <div>
@@ -643,11 +632,11 @@ const CloudComputingPage = ({ navigateTo }) => (
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">Your gateway to becoming a certified cloud professional, with a focus on AWS, Azure, and GCP.</p>
         </section>
         <div className="max-w-4xl mx-auto space-y-8">
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">What is Cloud Computing?</h2>
                 <p className="text-gray-300">Cloud computing is the on-demand delivery of IT resources over the Internet with pay-as-you-go pricing. Instead of buying, owning, and maintaining physical data centers and servers, you can access technology services, such as computing power, storage, and databases, on an as-needed basis from a cloud provider like Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP).</p>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Who is this course for?</h2>
                 <ul className="list-disc pl-5 text-gray-300 space-y-2">
                     <li>Developers looking to deploy and manage applications in the cloud.</li>
@@ -656,7 +645,7 @@ const CloudComputingPage = ({ navigateTo }) => (
                     <li>Anyone interested in a high-demand career in cloud computing.</li>
                 </ul>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Career Paths in Cloud Computing</h2>
                 <div className="grid md:grid-cols-2 gap-8">
                     <div>
@@ -681,7 +670,7 @@ const CloudComputingPage = ({ navigateTo }) => (
                     </div>
                 </div>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-600 pb-4">Course Curriculum & Tools</h2>
                 <div className="space-y-8">
                     <div>
@@ -743,11 +732,11 @@ const DevOpsPage = ({ navigateTo }) => (
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">Your gateway to becoming a certified DevOps professional, with a focus on automation and CI/CD.</p>
         </section>
         <div className="max-w-4xl mx-auto space-y-8">
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">What is DevOps?</h2>
                 <p className="text-gray-300">DevOps is a set of practices that combines software development (Dev) and IT operations (Ops). It aims to shorten the systems development life cycle and provide continuous delivery with high software quality. DevOps is complementary with Agile software development; several DevOps aspects came from Agile methodology.</p>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Who is this course for?</h2>
                 <ul className="list-disc pl-5 text-gray-300 space-y-2">
                     <li>Software developers who want to learn about deployment and operations.</li>
@@ -756,7 +745,7 @@ const DevOpsPage = ({ navigateTo }) => (
                     <li>Anyone interested in a career that bridges the gap between development and operations.</li>
                 </ul>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Career Paths in DevOps</h2>
                 <div className="grid md:grid-cols-2 gap-8">
                     <div>
@@ -781,7 +770,7 @@ const DevOpsPage = ({ navigateTo }) => (
                     </div>
                 </div>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-600 pb-4">Course Curriculum & Tools</h2>
                 <div className="space-y-8">
                     <div>
@@ -843,11 +832,11 @@ const AIPage = ({ navigateTo }) => (
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">Your gateway to becoming a certified AI professional, with a focus on machine learning and deep learning.</p>
         </section>
         <div className="max-w-4xl mx-auto space-y-8">
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">What is Artificial Intelligence?</h2>
                 <p className="text-gray-300">Artificial Intelligence (AI) is a wide-ranging branch of computer science concerned with building smart machines capable of performing tasks that typically require human intelligence. It is an interdisciplinary science with multiple approaches, but advancements in machine learning and deep learning are creating a paradigm shift in virtually every sector of the tech industry.</p>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Who is this course for?</h2>
                 <ul className="list-disc pl-5 text-gray-300 space-y-2">
                     <li>Software engineers who want to build smarter applications.</li>
@@ -856,7 +845,7 @@ const AIPage = ({ navigateTo }) => (
                     <li>Anyone fascinated by the potential of AI to solve complex problems.</li>
                 </ul>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Career Paths in AI</h2>
                 <div className="grid md:grid-cols-2 gap-8">
                     <div>
@@ -881,7 +870,7 @@ const AIPage = ({ navigateTo }) => (
                     </div>
                 </div>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-600 pb-4">Course Curriculum & Tools</h2>
                 <div className="space-y-8">
                     <div>
@@ -943,11 +932,11 @@ const DataEngineeringPage = ({ navigateTo }) => (
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">Your gateway to becoming a certified data engineer, with a focus on building and managing data pipelines.</p>
         </section>
         <div className="max-w-4xl mx-auto space-y-8">
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">What is Data Engineering?</h2>
                 <p className="text-gray-300">Data engineering is the aspect of data science that focuses on practical applications of data collection and analysis. For all the work that data scientists do to answer questions using large sets of information, there have to be mechanisms for collecting and validating that information. Data engineers build and maintain the systems and structures that allow data scientists to do their work.</p>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Who is this course for?</h2>
                 <ul className="list-disc pl-5 text-gray-300 space-y-2">
                     <li>Software engineers interested in big data systems.</li>
@@ -956,7 +945,7 @@ const DataEngineeringPage = ({ navigateTo }) => (
                     <li>Anyone with a passion for building robust, scalable data systems.</li>
                 </ul>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-4">Career Paths in Data Engineering</h2>
                 <div className="grid md:grid-cols-2 gap-8">
                     <div>
@@ -981,7 +970,7 @@ const DataEngineeringPage = ({ navigateTo }) => (
                     </div>
                 </div>
             </section>
-            <section className="content-section p-8 rounded-lg shadow-lg">
+            <section className="content-section bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
                 <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-600 pb-4">Course Curriculum & Tools</h2>
                 <div className="space-y-8">
                     <div>
