@@ -27,30 +27,42 @@ export default function App() {
     };
 
     const renderPage = () => {
-        switch (page) {
-            case 'home':
-                return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
-            case 'news':
-                return <NewsPage />;
-            case 'cyber-security':
-                return <CyberSecurityPage navigateTo={navigateTo} />;
-            case 'cloud-computing':
-                return <CloudComputingPage navigateTo={navigateTo} />;
-            case 'devops':
-                return <DevOpsPage navigateTo={navigateTo} />;
-            case 'ai':
-                return <AIPage navigateTo={navigateTo} />;
-            case 'data-engineering':
-                return <DataEngineeringPage navigateTo={navigateTo} />;
-            case 'disclaimer':
-                return <DisclaimerPage />;
-            case 'terms':
-                return <TermsPage />;
-            case 'submit-testimonial':
-                return <SubmitTestimonialPage />;
-            default:
-                return <NotFoundPage navigateTo={navigateTo} />;
+        const pageId = page;
+        const bgImage = pageBackgrounds[pageId] || pageBackgrounds.default;
+
+        const pageContent = () => {
+            switch (page) {
+                case 'home':
+                    return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
+                case 'news':
+                    return <NewsPage />;
+                case 'cyber-security':
+                    return <CyberSecurityPage navigateTo={navigateTo} />;
+                case 'cloud-computing':
+                    return <CloudComputingPage navigateTo={navigateTo} />;
+                case 'devops':
+                    return <DevOpsPage navigateTo={navigateTo} />;
+                case 'ai':
+                    return <AIPage navigateTo={navigateTo} />;
+                case 'data-engineering':
+                    return <DataEngineeringPage navigateTo={navigateTo} />;
+                case 'disclaimer':
+                    return <DisclaimerPage />;
+                case 'terms':
+                    return <TermsPage />;
+                case 'submit-testimonial':
+                    return <SubmitTestimonialPage />;
+                default:
+                    return <NotFoundPage navigateTo={navigateTo} />;
+            }
+        };
+
+        // The HomePage manages its own background sections, so we don't wrap it.
+        if (page === 'home') {
+            return pageContent();
         }
+
+        return <PageWrapper bgImage={bgImage}>{pageContent()}</PageWrapper>;
     };
 
     return (
