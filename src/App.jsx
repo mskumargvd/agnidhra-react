@@ -129,7 +129,7 @@ const faqs = [
 const pageBackgrounds = {
     home: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=2070&auto=format&fit=crop',
     'cloud-computing': '/bg-cloud.jpg',
-    'ai': '/bg-ai-1.png',
+    'ai': '/bg-ai-1.jpg',
     'data-engineering': '/bg-data-engineering.png',
     'devops': '/bg-devops.jpg',
     'cyber-security': '/bg-cyber-security.jpg',
