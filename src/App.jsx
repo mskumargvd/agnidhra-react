@@ -27,41 +27,46 @@ export default function App() {
     };
 
     const renderPage = () => {
-        switch (page) {
-            case 'home':
-                return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
-            case 'news':
-                return <NewsPage />;
-            case 'cyber-security':
-                return <CyberSecurityPage navigateTo={navigateTo} />;
-            case 'cloud-computing':
-                return <CloudComputingPage navigateTo={navigateTo} />;
-            case 'devops':
-                return <DevOpsPage navigateTo={navigateTo} />;
-            case 'ai':
-                return <AIPage navigateTo={navigateTo} />;
-            case 'data-engineering':
-                return <DataEngineeringPage navigateTo={navigateTo} />;
-            case 'disclaimer':
-                return <DisclaimerPage />;
-            case 'terms':
-                return <TermsPage />;
-            case 'submit-testimonial':
-                return <SubmitTestimonialPage />;
-            default:
-                return <NotFoundPage navigateTo={navigateTo} />;
-        }
+        const pageId = page;
+        const bgImage = pageBackgrounds[pageId] || pageBackgrounds.default;
+
+        const pageContent = () => {
+            switch (page) {
+                case 'home':
+                    return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
+                case 'news':
+                    return <NewsPage />;
+                case 'cyber-security':
+                    return <CyberSecurityPage navigateTo={navigateTo} />;
+                case 'cloud-computing':
+                    return <CloudComputingPage navigateTo={navigateTo} />;
+                case 'devops':
+                    return <DevOpsPage navigateTo={navigateTo} />;
+                case 'ai':
+                    return <AIPage navigateTo={navigateTo} />;
+                case 'data-engineering':
+                    return <DataEngineeringPage navigateTo={navigateTo} />;
+                case 'disclaimer':
+                    return <DisclaimerPage />;
+                case 'terms':
+                    return <TermsPage />;
+                case 'submit-testimonial':
+                    return <SubmitTestimonialPage />;
+                default:
+                    return <NotFoundPage navigateTo={navigateTo} />;
+            }
+        };
+        
+        return <PageWrapper bgImage={bgImage}>{pageContent()}</PageWrapper>;
     };
 
-    const bgImage = pageBackgrounds[page] || pageBackgrounds.default;
-
     return (
-        <PageWrapper bgImage={bgImage}>
+        <div className="bg-gray-800 text-gray-200">
             <Header navigateTo={navigateTo} activePage={page} />
             {renderPage()}
             <Footer navigateTo={navigateTo} />
             <ScrollButtons />
-        </PageWrapper>
+        </div>
     );
 }
 
@@ -122,13 +127,13 @@ const faqs = [
 ];
 
 const pageBackgrounds = {
-    home: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    'cyber-security': 'https://images.unsplash.com/photo-1544214224-42d38b4a4512?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    'cloud-computing': 'https://images.unsplash.com/photo-1549216998-31e31b03f03b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    'devops': 'https://images.unsplash.com/photo-1580894742597-8798991d1b3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    'ai': 'https://images.unsplash.com/photo-1534723452862-4c874018d66d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    'data-engineering': 'https://images.unsplash.com/photo-1558494949-7e3352843f39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    default: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+    home: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=2070&auto=format&fit=crop',
+    'cyber-security': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop',
+    'cloud-computing': 'https://images.unsplash.com/photo-1498588747262-0f275cc83888?q=80&w=2070&auto=format&fit=crop',
+    'devops': 'https://images.unsplash.com/photo-1542903660-eedba2cda473?q=80&w=1974&auto=format&fit=crop',
+    'ai': 'https://images.unsplash.com/photo-1527474334554-4ab38f1a87a8?q=80&w=1964&auto=format&fit=crop',
+    'data-engineering': 'https://images.unsplash.com/photo-1558494949-7e3352843f39?q=80&w=2070&auto=format&fit=crop',
+    default: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop',
 };
 
 // --- REUSABLE & LAYOUT COMPONENTS ---
@@ -1057,7 +1062,7 @@ const NewsCard = ({ category, date, title, description, link }) => (
 
 const DisclaimerPage = () => (
     <main className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto bg-[#374151] p-8 rounded-lg shadow-lg">
+        <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
             <h1 className="text-3xl font-bold text-white mb-6">Disclaimer</h1>
             <div className="space-y-4 text-gray-300">
                 <p>The information provided by Agnidhra Technologies ("we," "us," or "our") on this website is for general informational purposes only. All information on the site is provided in good faith, however we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the site.</p>
@@ -1071,7 +1076,7 @@ const DisclaimerPage = () => (
 
 const TermsPage = () => (
     <main className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto bg-[#374151] p-8 rounded-lg shadow-lg">
+        <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
             <h1 className="text-3xl font-bold text-white mb-6">Terms and Conditions</h1>
             <div className="space-y-4 text-gray-300">
                 <p>Welcome to Agnidhra Technologies. These terms and conditions outline the rules and regulations for the use of our website.</p>
