@@ -128,11 +128,11 @@ const faqs = [
 
 const pageBackgrounds = {
     home: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=2070&auto=format&fit=crop',
-    'cyber-security': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop',
-    'cloud-computing': 'https://images.unsplash.com/photo-1498588747262-0f275cc83888?q=80&w=2070&auto=format&fit=crop',
-    'devops': 'https://images.unsplash.com/photo-1542903660-eedba2cda473?q=80&w=1974&auto=format&fit=crop',
-    'ai': 'https://images.unsplash.com/photo-1527474334554-4ab38f1a87a8?q=80&w=1964&auto=format&fit=crop',
-    'data-engineering': 'https://images.unsplash.com/photo-1558494949-7e3352843f39?q=80&w=2070&auto=format&fit=crop',
+    'cloud-computing': '/bg-cloud.jpg',
+    'ai': '/bg-ai.png',
+    'data-engineering': '/bg-data-engineering.jpg',
+    'devops': '/bg-devops.jpg',
+    'cyber-security': '/bg-cyber-security.jpg',
     default: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop',
 };
 
