@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 /* ======================================================================
-  GLOBAL STYLES (index.css) - V10
+  GLOBAL STYLES (index.css) - V10.2
 ======================================================================
 */
 
@@ -141,6 +141,7 @@ body {
     background-position: center;
     background-attachment: fixed;
     position: relative;
+    min-height: 100vh;
 }
 
 .page-wrapper::before {
