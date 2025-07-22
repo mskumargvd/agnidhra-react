@@ -159,6 +159,7 @@ const Header = ({ navigateTo, activePage }) => {
                 <ul className="hidden md:flex space-x-8">
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'about'); }} className="nav-link text-gray-300 font-medium pb-1">About Us</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="nav-link text-gray-300 font-medium pb-1">Courses</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('quiz'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'quiz' ? 'active' : ''}`}>Course Quiz</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('news'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'news' ? 'active' : ''}`}>Cyber News</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="nav-link text-gray-300 font-medium pb-1">Contact Us</a></li>
                 </ul>
@@ -171,6 +172,7 @@ const Header = ({ navigateTo, activePage }) => {
                     <ul className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'about'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">About Us</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Courses</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('quiz'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Course Quiz</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('news'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Cyber News</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Contact Us</a></li>
                     </ul>
@@ -240,7 +242,7 @@ const ScrollButtons = () => {
 };
 
 const TestimonialCard = ({ quote, avatar, name, title }) => (
-    <div className="testimonial-card p-8 rounded-lg flex-shrink-0 w-80 md:w-96 snap-center">
+    <div className="testimonial-card p-8 rounded-lg flex-shrink-0 w-80 md:w-96 snap-center bg-gray-900/50 backdrop-blur-sm">
         <p className="text-gray-300 italic mb-4 h-32">"{quote}"</p>
         <div className="flex items-center justify-center mt-auto">
             <img className="w-12 h-12 rounded-full mr-4" src={avatar} alt={`Avatar of ${name}`}/>
@@ -305,7 +307,7 @@ const ContactForm = ({ initialCourse }) => {
         <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-white mb-4">Contact Us & Enroll</h2>
             <p className="text-lg text-gray-400 mb-8">Have questions or ready to enroll? Fill out the form below and we'll get back to you shortly.</p>
-            <form onSubmit={handleSubmit} className="contact-form rounded-lg p-8 max-w-xl mx-auto text-left">
+            <form onSubmit={handleSubmit} className="contact-form rounded-lg p-8 max-w-xl mx-auto text-left bg-gray-900/50 backdrop-blur-sm">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-300">Full Name</label>
@@ -356,7 +358,7 @@ const ContactForm = ({ initialCourse }) => {
 };
 
 const InstructorCard = ({ name, title, expertise, avatar }) => (
-    <div className="instructor-card text-center p-6 rounded-lg">
+    <div className="instructor-card text-center p-6 rounded-lg bg-gray-900/50 backdrop-blur-sm">
         <img className="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg" src={avatar} alt={`Avatar of ${name}`} />
         <h4 className="text-xl font-bold text-white">{name}</h4>
         <p className="text-[#ff7f50] font-medium">{title}</p>
@@ -367,7 +369,7 @@ const InstructorCard = ({ name, title, expertise, avatar }) => (
 const FAQItem = ({ q, a }) => {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="faq-item border-b border-gray-600">
+        <div className="faq-item bg-gray-900/50 backdrop-blur-sm rounded-lg">
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full flex justify-between items-center text-left py-4 px-2"
@@ -480,7 +482,7 @@ const HomePage = ({ navigateTo, initialCourse }) => (
                 <h2 className="text-3xl font-bold text-center text-white mb-12">Trainings Offered</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {courses.map(course => (
-                        <a href="#" key={course.id} onClick={(e) => { e.preventDefault(); navigateTo(course.id); }} className="course-card rounded-lg p-8 text-center block">
+                        <a href="#" key={course.id} onClick={(e) => { e.preventDefault(); navigateTo(course.id); }} className="course-card bg-gray-800/70 rounded-lg p-8 text-center block">
                             <div className="text-[#ff7f50] mb-4">{course.icon}</div>
                             <h3 className="text-2xl font-bold text-gray-100 mb-3">{course.title}</h3>
                             <p className="text-gray-400">{course.description}</p>
@@ -1044,7 +1046,7 @@ const NewsPage = () => (
 );
 
 const NewsCard = ({ category, date, title, description, link }) => (
-    <div className="blog-card rounded-lg overflow-hidden flex flex-col">
+    <div className="blog-card rounded-lg overflow-hidden flex flex-col bg-gray-900/50 backdrop-blur-sm">
         <div className="relative w-full h-48 bg-gray-700 flex items-center justify-center rounded-t-lg">
             <span className="text-2xl font-bold text-center text-[#ff7f50]">{category}</span>
         </div>
