@@ -142,6 +142,25 @@ const quizQuestions = [
         ],
     },
     {
+        question: "Which of these activities sounds most appealing to you?",
+        options: [
+            { text: "Defending networks and hunting for digital threats.", score: { 'cyber-security': 2 } },
+            { text: "Designing and managing scalable cloud infrastructure.", score: { 'cloud-computing': 2 } },
+            { text: "Automating and streamlining software pipelines.", score: { 'devops': 2 } },
+            { text: "Building intelligent systems that can learn and predict.", score: { 'ai': 2 } },
+            { text: "Creating and managing large-scale data systems.", score: { 'data-engineering': 2 } },
+        ],
+    },
+    {
+        question: "What is your primary goal?",
+        options: [
+            { text: "To secure digital assets and prevent cyber attacks.", score: { 'cyber-security': 2 } },
+            { text: "To build efficient, automated workflows for software.", score: { 'devops': 2, 'cloud-computing': 1 } },
+            { text: "To work with big data and build data-driven products.", score: { 'data-engineering': 2, 'ai': 1 } },
+            { text: "To leverage AI and machine learning to solve problems.", score: { 'ai': 2 } },
+        ],
+    },
+    {
         question: "What is your current technical experience level?",
         options: [
             { text: "Beginner - Just starting out", score: {} },
@@ -157,6 +176,14 @@ const quizQuestions = [
             { text: "Creating efficient, automated processes", score: { 'devops': 2 } },
             { text: "Analyzing data and building predictive models", score: { 'ai': 2 } },
             { text: "Organizing and managing large datasets", score: { 'data-engineering': 2 } },
+        ],
+    },
+        {
+        question: "Which best describes your technical background?",
+        options: [
+            { text: "I'm new to tech but eager to learn.", score: { 'cyber-security': 1, 'cloud-computing': 1 } },
+            { text: "I have experience in IT support or system administration.", score: { 'devops': 1, 'cloud-computing': 1 } },
+            { text: "I have experience with programming or scripting.", score: { 'ai': 1, 'data-engineering': 1, 'devops': 1 } },
         ],
     },
 ];
@@ -519,6 +546,9 @@ const HomePage = ({ navigateTo, initialCourse }) => (
                 </div>
             </div>
         </section>
+        <section id="quiz" className="py-20 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm rounded-lg mt-8">
+            <QuizComponent navigateTo={navigateTo} />
+        </section>
         <section id="testimonials" className="py-20 border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm rounded-lg mt-8">
             <div className="max-w-6xl mx-auto text-center">
                 <h2 className="text-3xl font-bold text-white mb-12">What Our Students Say</h2>
@@ -540,6 +570,96 @@ const HomePage = ({ navigateTo, initialCourse }) => (
         </section>
     </main>
 );
+
+const QuizComponent = ({ navigateTo }) => {
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [scores, setScores] = useState({
+        'cyber-security': 0,
+        'cloud-computing': 0,
+        'devops': 0,
+        'ai': 0,
+        'data-engineering': 0,
+    });
+    const [showResult, setShowResult] = useState(false);
+
+    const handleAnswer = (score) => {
+        const newScores = { ...scores };
+        for (const course in score) {
+            newScores[course] += score[course];
+        }
+        setScores(newScores);
+
+        if (currentQuestion < quizQuestions.length - 1) {
+            setCurrentQuestion(currentQuestion + 1);
+        } else {
+            setShowResult(true);
+        }
+    };
+
+    const getResult = () => {
+        let maxScore = -1;
+        let resultCourse = 'cyber-security'; // Default
+        for (const course in scores) {
+            if (scores[course] > maxScore) {
+                maxScore = scores[course];
+                resultCourse = course;
+            }
+        }
+        return courses.find(c => c.id === resultCourse);
+    };
+
+    const resetQuiz = () => {
+        setCurrentQuestion(0);
+        setScores({
+            'cyber-security': 0,
+            'cloud-computing': 0,
+            'devops': 0,
+            'ai': 0,
+            'data-engineering': 0,
+        });
+        setShowResult(false);
+    };
+
+    const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+
+    if (showResult) {
+        const result = getResult();
+        return (
+            <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl font-bold text-white mb-4">Your Recommended Course Is:</h2>
+                <div className="quiz-card bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg inline-block">
+                    <div className="text-[#ff7f50] mb-4">{result.icon}</div>
+                    <h3 className="text-2xl font-bold text-gray-100 mb-3">{result.title}</h3>
+                    <p className="text-gray-400 max-w-md mx-auto">{result.description}</p>
+                    <div className="mt-8 space-x-4">
+                        <a href="#" onClick={(e) => { e.preventDefault(); navigateTo(result.id); }} className="inline-block bg-[#ff7f50] text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-opacity-90 transition-colors duration-300">Learn More</a>
+                        <button onClick={resetQuiz} className="inline-block bg-gray-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-500 transition-colors duration-300">Retake Quiz</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-white mb-4">Find Your Perfect Course</h2>
+            <p className="text-lg text-gray-400 mb-8">Answer a few quick questions to get a personalized recommendation.</p>
+            <div className="quiz-card bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
+                <div className="progress-bar-container mb-8">
+                    <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+                </div>
+                <h3 className="text-2xl font-semibold text-white mb-6">{quizQuestions[currentQuestion].question}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {quizQuestions[currentQuestion].options.map((option, index) => (
+                        <button key={index} onClick={() => handleAnswer(option.score)} className="quiz-option p-4 rounded-lg text-left">
+                            <span className="text-lg text-gray-200">{option.text}</span>
+                        </button>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const CyberSecurityPage = ({ navigateTo }) => (
     <main className="container mx-auto px-6 py-12">
