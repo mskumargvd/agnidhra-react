@@ -131,6 +131,36 @@ const pageBackgrounds = {
     default: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop',
 };
 
+const quizQuestions = [
+    {
+        question: "Which area interests you the most?",
+        options: [
+            { text: "Protecting systems from hackers", score: { 'cyber-security': 2 } },
+            { text: "Building and managing large-scale applications", score: { 'cloud-computing': 1, 'devops': 1 } },
+            { text: "Automating software development and deployment", score: { 'devops': 2 } },
+            { text: "Working with data and creating intelligent systems", score: { 'ai': 1, 'data-engineering': 1 } },
+        ],
+    },
+    {
+        question: "What is your current technical experience level?",
+        options: [
+            { text: "Beginner - Just starting out", score: {} },
+            { text: "Intermediate - I have some IT or coding experience", score: { 'devops': 1, 'cloud-computing': 1 } },
+            { text: "Advanced - I am a developer or experienced IT pro", score: { 'ai': 1, 'data-engineering': 1 } },
+        ],
+    },
+    {
+        question: "What kind of tasks do you enjoy?",
+        options: [
+            { text: "Problem-solving and investigating issues", score: { 'cyber-security': 2 } },
+            { text: "Designing and building systems architecture", score: { 'cloud-computing': 2 } },
+            { text: "Creating efficient, automated processes", score: { 'devops': 2 } },
+            { text: "Analyzing data and building predictive models", score: { 'ai': 2 } },
+            { text: "Organizing and managing large datasets", score: { 'data-engineering': 2 } },
+        ],
+    },
+];
+
 // --- REUSABLE & LAYOUT COMPONENTS ---
 
 const PageWrapper = ({ bgImage, children }) => (
