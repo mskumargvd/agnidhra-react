@@ -265,7 +265,7 @@ const Header = ({ navigateTo, activePage }) => {
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'about'); }} className="nav-link text-gray-300 font-medium pb-1">About Us</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="nav-link text-gray-300 font-medium pb-1">Courses</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'quiz'); }} className="nav-link text-gray-300 font-medium pb-1">Course Finder</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'blog' ? 'active' : ''}`}>Blog</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'blog' || activePage === 'article' ? 'active' : ''}`}>Blog</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="nav-link text-gray-300 font-medium pb-1">Contact Us</a></li>
                 </ul>
                 <button id="mobile-menu-button" className="md:hidden text-gray-300 focus:outline-none" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
