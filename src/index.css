@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 /* ======================================================================
-  GLOBAL STYLES (index.css) - V11.1
+  GLOBAL STYLES (index.css) - V12
 ======================================================================
 */
 
@@ -181,4 +181,28 @@ body {
 .quiz-option:hover {
     border-color: #ff7f50;
     background-color: rgba(255, 127, 80, 0.1);
+}
+
+/* Article Content Styles */
+.article-content h3 {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.article-content p {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+}
+
+.article-content ul {
+    list-style-type: disc;
+    padding-left: 1.25rem; /* pl-5 */
+    margin-bottom: 1rem;
+}
+
+.article-content li {
+    margin-bottom: 0.5rem;
 }
