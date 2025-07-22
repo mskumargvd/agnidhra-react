@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 /* ======================================================================
-  GLOBAL STYLES (index.css) - V10.2
+  GLOBAL STYLES (index.css) - V11
 ======================================================================
 */
 
@@ -23,10 +23,8 @@ body {
     border-bottom-color: #ff7f50;
 }
 
-.course-card, .blog-card, .contact-form, .testimonial-card, .instructor-card, .faq-item {
+.course-card, .blog-card, .contact-form, .testimonial-card, .instructor-card, .faq-item, .quiz-card {
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    background-color: #374151;
-    border: 1px solid #4b5563;
 }
 
 .course-card:hover, .blog-card:hover, .testimonial-card:hover, .instructor-card:hover {
@@ -158,4 +156,29 @@ body {
 .page-content {
     position: relative;
     z-index: 2;
+}
+
+/* Quiz Styles */
+.progress-bar-container {
+    width: 100%;
+    background-color: #4b5563;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #ff7f50;
+    border-radius: 9999px;
+    transition: width 0.5s ease-in-out;
+}
+
+.quiz-option {
+    border: 2px solid #4b5563;
+    transition: all 0.2s ease-in-out;
+}
+
+.quiz-option:hover {
+    border-color: #ff7f50;
+    background-color: rgba(255, 127, 80, 0.1);
 }

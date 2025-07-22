@@ -32,6 +32,8 @@ export default function App() {
                 return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
             case 'news':
                 return <NewsPage />;
+            case 'quiz':
+                return <QuizPage navigateTo={navigateTo} />;
             case 'cyber-security':
                 return <CyberSecurityPage navigateTo={navigateTo} />;
             case 'cloud-computing':
