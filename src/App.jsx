@@ -684,6 +684,53 @@ const QuizComponent = ({ navigateTo }) => {
     );
 };
 
+const BlogPage = ({ navigateTo }) => (
+    <main className="container mx-auto px-6 py-12">
+        <section id="blog" className="py-16">
+            <div className="max-w-4xl mx-auto">
+                <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-12">From the Blog</h1>
+                <div className="space-y-8">
+                    {blogPosts.map((post, index) => (
+                        <BlogCard key={index} post={post} navigateTo={navigateTo} />
+                    ))}
+                </div>
+            </div>
+        </section>
+    </main>
+);
+
+const BlogCard = ({ post, navigateTo }) => (
+    <div className="blog-card bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg">
+        <p className="text-sm text-gray-400 mb-2">{post.date} | By {post.author}</p>
+        <h2 className="text-2xl font-bold text-white mb-3">{post.title}</h2>
+        <p className="text-gray-300 mb-4">{post.snippet}</p>
+        <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('article', { slug: post.slug }); }} className="font-semibold text-[#ff7f50] hover:text-opacity-80">Read More &rarr;</a>
+    </div>
+);
+
+const ArticlePage = ({ navigateTo, slug }) => {
+    const post = blogPosts.find(p => p.slug === slug);
+
+    if (!post) {
+        return <NotFoundPage navigateTo={navigateTo} />;
+    }
+
+    return (
+        <main className="container mx-auto px-6 py-12">
+            <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 md:p-12 rounded-lg shadow-lg">
+                <div className="mb-8">
+                    <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('blog'); }} className="text-[#ff7f50] hover:text-opacity-80 font-semibold">&larr; Back to Blog</a>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{post.title}</h1>
+                <div className="text-gray-400 mb-6">
+                    <span>By {post.author}</span> | <span>{post.date}</span> | <span className="font-semibold text-[#ff7f50]">{post.category}</span>
+                </div>
+                <div className="article-content text-gray-300" dangerouslySetInnerHTML={{ __html: post.content }}></div>
+            </div>
+        </main>
+    );
+};
+
 const CyberSecurityPage = ({ navigateTo }) => (
     <main className="container mx-auto px-6 py-12">
         <section className="text-center py-16">
