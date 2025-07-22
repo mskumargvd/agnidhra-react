@@ -1247,15 +1247,14 @@ const DataEngineeringPage = ({ navigateTo }) => (
     </main>
 );
 
-const NewsPage = () => (
+const BlogPage = ({ navigateTo }) => (
     <main className="container mx-auto px-6 py-12">
-        <section id="news" className="py-16">
-            <div className="max-w-6xl mx-auto">
-                <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-12">Cyber News & Insights</h1>
-                
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {newsArticles.map((article, index) => (
-                        <NewsCard key={index} {...article} />
+        <section id="blog" className="py-16">
+            <div className="max-w-4xl mx-auto">
+                <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-12">From the Blog</h1>
+                <div className="space-y-8">
+                    {blogPosts.map((post, index) => (
+                        <BlogCard key={index} post={post} navigateTo={navigateTo} />
                     ))}
                 </div>
             </div>
@@ -1263,19 +1262,37 @@ const NewsPage = () => (
     </main>
 );
 
-const NewsCard = ({ category, date, title, description, link }) => (
-    <div className="blog-card rounded-lg overflow-hidden flex flex-col">
-        <div className="relative w-full h-48 bg-gray-700 flex items-center justify-center rounded-t-lg">
-            <span className="text-2xl font-bold text-center text-[#ff7f50]">{category}</span>
-        </div>
-        <div className="p-6 flex flex-col flex-grow">
-            <p className="text-sm text-gray-500 mb-2">{date}</p>
-            <h3 className="text-xl font-bold text-gray-100 mb-3">{title}</h3>
-            <p className="text-gray-400 mb-4 flex-grow">{description}</p>
-            <a href={link} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#ff7f50] hover:text-opacity-80 mt-auto">Read More &rarr;</a>
-        </div>
+const BlogCard = ({ post, navigateTo }) => (
+    <div className="blog-card bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg">
+        <p className="text-sm text-gray-400 mb-2">{post.date} | By {post.author}</p>
+        <h2 className="text-2xl font-bold text-white mb-3">{post.title}</h2>
+        <p className="text-gray-300 mb-4">{post.snippet}</p>
+        <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('article', { slug: post.slug }); }} className="font-semibold text-[#ff7f50] hover:text-opacity-80">Read More &rarr;</a>
     </div>
 );
+
+const ArticlePage = ({ navigateTo, slug }) => {
+    const post = blogPosts.find(p => p.slug === slug);
+
+    if (!post) {
+        return <NotFoundPage navigateTo={navigateTo} />;
+    }
+
+    return (
+        <main className="container mx-auto px-6 py-12">
+            <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 md:p-12 rounded-lg shadow-lg">
+                <div className="mb-8">
+                    <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('blog'); }} className="text-[#ff7f50] hover:text-opacity-80 font-semibold">&larr; Back to Blog</a>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{post.title}</h1>
+                <div className="text-gray-400 mb-6">
+                    <span>By {post.author}</span> | <span>{post.date}</span> | <span className="font-semibold text-[#ff7f50]">{post.category}</span>
+                </div>
+                <div className="article-content text-gray-300" dangerouslySetInnerHTML={{ __html: post.content }}></div>
+            </div>
+        </main>
+    );
+};
 
 const DisclaimerPage = () => (
     <main className="container mx-auto px-6 py-12">
