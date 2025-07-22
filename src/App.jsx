@@ -3,13 +3,19 @@ import React, { useState, useEffect, useRef } from 'react';
 // --- MAIN APP COMPONENT ---
 export default function App() {
     const [page, setPage] = useState('home');
+    const [activeSlug, setActiveSlug] = useState(null);
     const [initialCourse, setInitialCourse] = useState('cyber-security');
 
     const navigateTo = (targetPage, options = {}) => {
-        const { sectionId = null, course = null } = options;
+        const { sectionId = null, course = null, slug = null } = options;
         
         if (course) {
             setInitialCourse(course);
+        }
+        if (slug) {
+            setActiveSlug(slug);
+        } else {
+            setActiveSlug(null);
         }
         
         setPage(targetPage);
@@ -30,8 +36,10 @@ export default function App() {
         switch (page) {
             case 'home':
                 return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
-            case 'news':
-                return <NewsPage />;
+            case 'blog':
+                return <BlogPage navigateTo={navigateTo} />;
+            case 'article':
+                return <ArticlePage navigateTo={navigateTo} slug={activeSlug} />;
             case 'cyber-security':
                 return <CyberSecurityPage navigateTo={navigateTo} />;
             case 'cloud-computing':
@@ -94,10 +102,52 @@ const courses = [
     { id: 'data-engineering', icon: <Icon path={icons.data} className="w-16 h-16 mx-auto"/>, title: 'Data Engineering', description: 'Learn to build and manage robust data pipelines, and process large-scale datasets efficiently.' },
 ];
 
-const newsArticles = [
-    { category: 'Wi-Fi Security', date: 'July 08, 2025', title: "New Wi-Fi Vulnerability Affects Millions of Routers", description: "A critical flaw has been discovered in the WPA3 security protocol, potentially exposing millions of modern Wi-Fi networks to attackers.", link: "#" },
-    { category: 'APT Groups', date: 'July 08, 2025', title: "APT Group 'ShadowClaw' Targets Financial Institutions", description: "A newly identified Advanced Persistent Threat group is using sophisticated social engineering to breach major banks and financial services.", link: "#" },
-    { category: 'Zero-Day Exploit', date: 'July 08, 2025', title: "Zero-Day in Popular CRM Software Actively Exploited", description: "A zero-day exploit in a major CRM platform is being used to exfiltrate sensitive customer data. A patch is not yet available.", link: "#" },
+const blogPosts = [
+    { 
+        slug: 'new-wifi-vulnerability',
+        category: 'Wi-Fi Security', 
+        date: 'July 22, 2025', 
+        author: 'Dr. Anjali Rao',
+        title: "New Wi-Fi Vulnerability Affects Millions of Routers", 
+        snippet: "A critical flaw has been discovered in the WPA3 security protocol, potentially exposing millions of modern Wi-Fi networks to attackers.",
+        content: `
+            <p class="mb-4">A critical vulnerability, dubbed "Key Reinstallation Attacks" (KRACKs), has been discovered in the WPA3 security protocol. This flaw could potentially expose millions of modern Wi-Fi networks to sophisticated attackers, allowing them to intercept sensitive data, such as credit card numbers, passwords, and private messages.</p>
+            <h3 class="text-2xl font-bold text-white mb-2 mt-6">How it Works</h3>
+            <p class="mb-4">The attack works by forcing a client to reinstall an already-in-use key. When reinstalling the key, cryptographic nonce values are reset, allowing an attacker to replay, decrypt, and/or forge packets. The vulnerability affects all modern protected Wi-Fi networks that use the WPA3 standard.</p>
+            <h3 class="text-2xl font-bold text-white mb-2 mt-6">What You Should Do</h3>
+            <ul class="list-disc pl-5 space-y-2">
+                <li>Update your devices: Ensure all your Wi-Fi enabled devices, including routers, laptops, and smartphones, are updated with the latest security patches.</li>
+                <li>Use HTTPS: Continue to use secure websites (HTTPS) whenever possible, as this provides an additional layer of encryption.</li>
+                <li>Consider a VPN: Using a reputable VPN service can encrypt all your internet traffic, providing protection even on a compromised network.</li>
+            </ul>
+        `
+    },
+    { 
+        slug: 'apt-group-shadowclaw',
+        category: 'APT Groups', 
+        date: 'July 20, 2025', 
+        author: 'Rajesh Kumar',
+        title: "APT Group 'ShadowClaw' Targets Financial Institutions", 
+        snippet: "A newly identified Advanced Persistent Threat group is using sophisticated social engineering to breach major banks and financial services.",
+        content: `
+            <p class="mb-4">Security researchers have identified a new Advanced Persistent Threat (APT) group, which they have named "ShadowClaw." This group is highly sophisticated and has been targeting major banks and financial services across North America and Europe. Their primary method of attack involves highly targeted spear-phishing campaigns combined with custom malware.</p>
+            <h3 class="text-2xl font-bold text-white mb-2 mt-6">Modus Operandi</h3>
+            <p class="mb-4">ShadowClaw's attacks begin with meticulously crafted emails that appear to be from trusted sources. These emails contain malicious attachments or links that, when opened, deploy a custom backdoor trojan. This trojan allows the attackers to gain a persistent foothold in the victim's network, exfiltrate data, and move laterally to compromise other systems.</p>
+        `
+    },
+    { 
+        slug: 'zero-day-crm-exploit',
+        category: 'Zero-Day Exploit', 
+        date: 'July 18, 2025', 
+        author: 'Sandeep Verma',
+        title: "Zero-Day in Popular CRM Software Actively Exploited", 
+        snippet: "A zero-day exploit in a major CRM platform is being used to exfiltrate sensitive customer data. A patch is not yet available.",
+        content: `
+            <p class="mb-4">A critical zero-day vulnerability is being actively exploited in a widely-used Customer Relationship Management (CRM) platform. The vulnerability allows for remote code execution, giving attackers complete control over the affected server. This has led to the exfiltration of sensitive customer data from several large corporations.</p>
+            <h3 class="text-2xl font-bold text-white mb-2 mt-6">Immediate Mitigation</h3>
+            <p class="mb-4">The software vendor has not yet released an official patch. In the meantime, it is strongly recommended that all users of the affected CRM platform apply network-level restrictions to limit access to the application's administrative interfaces and monitor for any unusual activity.</p>
+        `
+    },
 ];
 
 const testimonials = [
@@ -215,7 +265,7 @@ const Header = ({ navigateTo, activePage }) => {
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'about'); }} className="nav-link text-gray-300 font-medium pb-1">About Us</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="nav-link text-gray-300 font-medium pb-1">Courses</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'quiz'); }} className="nav-link text-gray-300 font-medium pb-1">Course Finder</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('news'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'news' ? 'active' : ''}`}>Cyber News</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'blog' ? 'active' : ''}`}>Blog</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="nav-link text-gray-300 font-medium pb-1">Contact Us</a></li>
                 </ul>
                 <button id="mobile-menu-button" className="md:hidden text-gray-300 focus:outline-none" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -228,7 +278,7 @@ const Header = ({ navigateTo, activePage }) => {
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'about'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">About Us</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Courses</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'quiz'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Course Finder</a></li>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('news'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Cyber News</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Blog</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Contact Us</a></li>
                     </ul>
                 </div>
@@ -627,7 +677,7 @@ const QuizComponent = ({ navigateTo }) => {
         return (
             <div className="max-w-4xl mx-auto text-center">
                 <h2 className="text-3xl font-bold text-white mb-4">Your Recommended Course Is:</h2>
-                <div className="quiz-card bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg inline-block">
+                <div className="quiz-card bg-gray-800 p-8 rounded-lg shadow-lg inline-block">
                     <div className="text-[#ff7f50] mb-4">{result.icon}</div>
                     <h3 className="text-2xl font-bold text-gray-100 mb-3">{result.title}</h3>
                     <p className="text-gray-400 max-w-md mx-auto">{result.description}</p>
@@ -644,7 +694,7 @@ const QuizComponent = ({ navigateTo }) => {
         <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-white mb-4">Find Your Perfect Course</h2>
             <p className="text-lg text-gray-400 mb-8">Answer a few quick questions to get a personalized recommendation.</p>
-            <div className="quiz-card bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
+            <div className="quiz-card bg-gray-800 p-8 rounded-lg shadow-lg">
                 <div className="progress-bar-container mb-8">
                     <div className="progress-bar" style={{ width: `${progress}%` }}></div>
                 </div>
