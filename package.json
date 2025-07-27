@@ -1,7 +1,7 @@
 {
   "name": "agnidhra-website",
   "private": true,
-  "version": "9.3.0",
+  "version": "13.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "nodemailer": "^6.9.8",
+    "firebase": "^10.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
