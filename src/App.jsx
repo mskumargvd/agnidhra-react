@@ -11,6 +11,7 @@ import {
 export default function App() {
     const [page, setPage] = useState('home');
     const [activeSlug, setActiveSlug] = useState(null);
+    const [activeCourseId, setActiveCourseId] = useState(null);
     const [initialCourse, setInitialCourse] = useState('cyber-security');
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -24,11 +25,13 @@ export default function App() {
     }, []);
 
     const navigateTo = (targetPage, options = {}) => {
-        const { sectionId = null, course = null, slug = null } = options;
+        const { sectionId = null, course = null, slug = null, courseId = null } = options;
         
         if (course) setInitialCourse(course);
         if (slug) setActiveSlug(slug);
         else setActiveSlug(null);
+        if (courseId) setActiveCourseId(courseId);
+        else setActiveCourseId(null);
         
         setPage(targetPage);
 
@@ -57,7 +60,9 @@ export default function App() {
             case 'signup':
                 return <SignupPage navigateTo={navigateTo} />;
             case 'dashboard':
-                return user ? <AdminDashboardPage user={user} /> : <LoginPage navigateTo={navigateTo} />;
+                return user ? <DashboardPage user={user} navigateTo={navigateTo} /> : <LoginPage navigateTo={navigateTo} />;
+            case 'course-content':
+                return user ? <CourseContentPage courseId={activeCourseId} navigateTo={navigateTo} /> : <LoginPage navigateTo={navigateTo} />;
             case 'cyber-security':
                 return <CyberSecurityPage navigateTo={navigateTo} />;
             case 'cloud-computing':
@@ -256,6 +261,31 @@ const quizQuestions = [
     },
 ];
 
+const enrolledCourses = [
+    { id: 'cyber-security', progress: 60 },
+    { id: 'cloud-computing', progress: 25 },
+];
+
+const courseContent = {
+    'cyber-security': {
+        title: 'Cyber Security Professional Program',
+        modules: [
+            { title: 'Module 1: Introduction to Cybersecurity', completed: true },
+            { title: 'Module 2: Network Fundamentals', completed: true },
+            { title: 'Module 3: SOC Core Concepts', completed: false },
+            { title: 'Module 4: Threat Intelligence', completed: false },
+        ]
+    },
+    'cloud-computing': {
+        title: 'Cloud Computing Professional Program',
+        modules: [
+            { title: 'Module 1: Introduction to Cloud', completed: true },
+            { title: 'Module 2: Core AWS Services', completed: false },
+            { title: 'Module 3: Infrastructure as Code', completed: false },
+        ]
+    }
+};
+
 // --- REUSABLE & LAYOUT COMPONENTS ---
 
 const PageWrapper = ({ bgImage, children }) => (
@@ -289,18 +319,18 @@ const Header = ({ navigateTo, activePage, user }) => {
                     <span className="text-2xl font-bold text-gray-100">Agnidhra Technologies</span>
                 </a>
                 <ul className="hidden md:flex space-x-8 items-center">
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'about'); }} className="nav-link text-gray-300 font-medium pb-1">About Us</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="nav-link text-gray-300 font-medium pb-1">Courses</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'quiz'); }} className="nav-link text-gray-300 font-medium pb-1">Course Finder</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('events'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'events' ? 'active' : ''}`}>Events</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('resources'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'resources' ? 'active' : ''}`}>Resources</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'blog' || activePage === 'article' ? 'active' : ''}`}>Blog</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="nav-link text-gray-300 font-medium pb-1">Contact Us</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="nav-link text-gray-300 font-medium pb-1">Contact</a></li>
                     {user ? (
                         <>
                             <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('dashboard'); }} className="nav-link text-gray-300 font-medium pb-1">Dashboard</a></li>
                             <li><button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">Logout</button></li>
                         </>
                     ) : (
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('login'); }} className="bg-[#ff7f50] hover:bg-opacity-90 text-white font-semibold px-4 py-2 rounded-lg">Admin Login</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('login'); }} className="bg-[#ff7f50] hover:bg-opacity-90 text-white font-semibold px-4 py-2 rounded-lg">Login</a></li>
                     )}
                 </ul>
                 <button id="mobile-menu-button" className="md:hidden text-gray-300 focus:outline-none" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -310,18 +340,18 @@ const Header = ({ navigateTo, activePage, user }) => {
             {isMobileMenuOpen && (
                 <div id="mobile-menu" className="md:hidden">
                     <ul className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'about'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">About Us</a></li>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Courses</a></li>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'quiz'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Course Finder</a></li>
+                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Courses</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('events'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Events</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('resources'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Resources</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Blog</a></li>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Contact Us</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Contact</a></li>
                         {user ? (
                             <>
                                 <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('dashboard'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Dashboard</a></li>
                                 <li><button onClick={handleLogout} className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-400 hover:text-red-300 hover:bg-[#374151]">Logout</button></li>
                             </>
                         ) : (
-                            <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('login'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Admin Login</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('login'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Login</a></li>
                         )}
                     </ul>
                 </div>
@@ -598,6 +628,115 @@ const Testimonials = () => {
 
 
 // --- PAGE COMPONENTS ---
+
+const LoginPage = ({ navigateTo }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError('');
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            navigateTo('dashboard');
+        } catch (error) {
+            setError("Failed to log in. Please check your email and password.");
+            console.error("Error logging in: ", error);
+        }
+    };
+
+    return (
+        <main className="auth-form-container">
+            <div className="w-full max-w-md bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
+                <h1 className="text-3xl font-bold text-center text-white mb-6">Login</h1>
+                {error && <p className="bg-red-500/20 text-red-300 p-3 rounded-md mb-4">{error}</p>}
+                <form onSubmit={handleLogin} className="space-y-6">
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email Address</label>
+                        <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-coral-500 focus:border-coral-500 text-white"/>
+                    </div>
+                    <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
+                        <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-coral-500 focus:border-coral-500 text-white"/>
+                    </div>
+                    <div>
+                        <button type="submit" className="w-full inline-flex justify-center py-3 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#ff7f50] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-500">
+                            Log In
+                        </button>
+                    </div>
+                </form>
+                <p className="mt-6 text-center text-sm text-gray-400">
+                    Don't have an account?{' '}
+                    <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('signup'); }} className="font-medium text-[#ff7f50] hover:text-opacity-80">
+                        Sign up
+                    </a>
+                </p>
+            </div>
+        </main>
+    );
+};
+
+const SignupPage = ({ navigateTo }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        setError('');
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            navigateTo('dashboard');
+        } catch (error) {
+            setError("Failed to create an account. The email may already be in use.");
+            console.error("Error signing up: ", error);
+        }
+    };
+
+    return (
+        <main className="auth-form-container">
+            <div className="w-full max-w-md bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
+                <h1 className="text-3xl font-bold text-center text-white mb-6">Create Account</h1>
+                {error && <p className="bg-red-500/20 text-red-300 p-3 rounded-md mb-4">{error}</p>}
+                <form onSubmit={handleSignup} className="space-y-6">
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email Address</label>
+                        <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-coral-500 focus:border-coral-500 text-white"/>
+                    </div>
+                    <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
+                        <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-coral-500 focus:border-coral-500 text-white"/>
+                    </div>
+                    <div>
+                        <button type="submit" className="w-full inline-flex justify-center py-3 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#ff7f50] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-500">
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
+                <p className="mt-6 text-center text-sm text-gray-400">
+                    Already have an account?{' '}
+                    <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('login'); }} className="font-medium text-[#ff7f50] hover:text-opacity-80">
+                        Log in
+                    </a>
+                </p>
+            </div>
+        </main>
+    );
+};
+
+const AdminDashboardPage = ({ user }) => (
+    <main className="container mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 md:p-12 rounded-lg shadow-lg">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Admin Dashboard</h1>
+            <p className="text-lg text-gray-300">Welcome, <span className="font-bold text-[#ff7f50]">{user.email}</span>!</p>
+            <div className="mt-8">
+                <h2 className="text-2xl font-bold text-white mb-4">Quick Actions</h2>
+                <p className="text-gray-400">This is a protected area. In the future, you will be able to manage courses, students, and blog posts from here.</p>
+            </div>
+        </div>
+    </main>
+);
 
 const HomePage = ({ navigateTo, initialCourse }) => (
     <main className="container mx-auto px-6 py-12">
@@ -1312,115 +1451,6 @@ const DataEngineeringPage = ({ navigateTo }) => (
             </section>
             <div className="mt-12 text-center">
                 <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home', { sectionId: 'contact', course: 'data-engineering' }); }} className="inline-block bg-[#ff7f50] text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:bg-opacity-90 transition-colors duration-300 text-lg">Enroll Now</a>
-            </div>
-        </div>
-    </main>
-);
-
-const LoginPage = ({ navigateTo }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        setError('');
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            navigateTo('dashboard');
-        } catch (error) {
-            setError("Failed to log in. Please check your email and password.");
-            console.error("Error logging in: ", error);
-        }
-    };
-
-    return (
-        <main className="auth-form-container">
-            <div className="w-full max-w-md bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-center text-white mb-6">Admin Login</h1>
-                {error && <p className="bg-red-500/20 text-red-300 p-3 rounded-md mb-4">{error}</p>}
-                <form onSubmit={handleLogin} className="space-y-6">
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email Address</label>
-                        <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-coral-500 focus:border-coral-500 text-white"/>
-                    </div>
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
-                        <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-coral-500 focus:border-coral-500 text-white"/>
-                    </div>
-                    <div>
-                        <button type="submit" className="w-full inline-flex justify-center py-3 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#ff7f50] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-500">
-                            Log In
-                        </button>
-                    </div>
-                </form>
-                <p className="mt-6 text-center text-sm text-gray-400">
-                    Don't have an account?{' '}
-                    <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('signup'); }} className="font-medium text-[#ff7f50] hover:text-opacity-80">
-                        Sign up
-                    </a>
-                </p>
-            </div>
-        </main>
-    );
-};
-
-const SignupPage = ({ navigateTo }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-
-    const handleSignup = async (e) => {
-        e.preventDefault();
-        setError('');
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            navigateTo('dashboard');
-        } catch (error) {
-            setError("Failed to create an account. The email may already be in use.");
-            console.error("Error signing up: ", error);
-        }
-    };
-
-    return (
-        <main className="auth-form-container">
-            <div className="w-full max-w-md bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-center text-white mb-6">Create Admin Account</h1>
-                {error && <p className="bg-red-500/20 text-red-300 p-3 rounded-md mb-4">{error}</p>}
-                <form onSubmit={handleSignup} className="space-y-6">
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email Address</label>
-                        <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-coral-500 focus:border-coral-500 text-white"/>
-                    </div>
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
-                        <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-coral-500 focus:border-coral-500 text-white"/>
-                    </div>
-                    <div>
-                        <button type="submit" className="w-full inline-flex justify-center py-3 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#ff7f50] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-500">
-                            Sign Up
-                        </button>
-                    </div>
-                </form>
-                <p className="mt-6 text-center text-sm text-gray-400">
-                    Already have an account?{' '}
-                    <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('login'); }} className="font-medium text-[#ff7f50] hover:text-opacity-80">
-                        Log in
-                    </a>
-                </p>
-            </div>
-        </main>
-    );
-};
-
-const AdminDashboardPage = ({ user }) => (
-    <main className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 md:p-12 rounded-lg shadow-lg">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Admin Dashboard</h1>
-            <p className="text-lg text-gray-300">Welcome, <span className="font-bold text-[#ff7f50]">{user.email}</span>!</p>
-            <div className="mt-8">
-                <h2 className="text-2xl font-bold text-white mb-4">Quick Actions</h2>
-                <p className="text-gray-400">This is a protected area. In the future, you will be able to manage courses, students, and blog posts from here.</p>
             </div>
         </div>
     </main>
