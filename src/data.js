@@ -15,11 +15,11 @@ export const icons = {
 };
 
 export const courses = [
-    { id: 'cyber-security', icon: <Icon path={icons.cyberSecurity} className="w-16 h-16 mx-auto"/>, title: 'Cyber Security', description: 'Currently available. Dive deep into ethical hacking, network defense, and threat intelligence.' },
-    { id: 'cloud-computing', icon: <Icon path={icons.cloud} className="w-16 h-16 mx-auto"/>, title: 'Cloud Computing', description: 'Master AWS, Azure, and GCP. Learn to design, deploy, and manage scalable and cost-effective cloud solutions.' },
-    { id: 'devops', icon: <Icon path={icons.devops} className="w-16 h-16 mx-auto"/>, title: 'DevOps', description: 'Learn to automate workflows and accelerate delivery pipelines using modern tools like Docker, Kubernetes, and Jenkins.' },
-    { id: 'ai', icon: <Icon path={icons.ai} className="w-16 h-16 mx-auto"/>, title: 'Artificial Intelligence', description: 'Explore the world of machine learning, neural networks, and build intelligent applications.' },
-    { id: 'data-engineering', icon: <Icon path={icons.data} className="w-16 h-16 mx-auto"/>, title: 'Data Engineering', description: 'Learn to build and manage robust data pipelines, and process large-scale datasets efficiently.' },
+    { id: 'cyber-security', icon: 'cyberSecurity', title: 'Cyber Security', description: 'Currently available. Dive deep into ethical hacking, network defense, and threat intelligence.' },
+    { id: 'cloud-computing', icon: 'cloud', title: 'Cloud Computing', description: 'Master AWS, Azure, and GCP. Learn to design, deploy, and manage scalable and cost-effective cloud solutions.' },
+    { id: 'devops', icon: 'devops', title: 'DevOps', description: 'Learn to automate workflows and accelerate delivery pipelines using modern tools like Docker, Kubernetes, and Jenkins.' },
+    { id: 'ai', icon: 'ai', title: 'Artificial Intelligence', description: 'Explore the world of machine learning, neural networks, and build intelligent applications.' },
+    { id: 'data-engineering', icon: 'data', title: 'Data Engineering', description: 'Learn to build and manage robust data pipelines, and process large-scale datasets efficiently.' },
 ];
 
 export const blogPosts = [
