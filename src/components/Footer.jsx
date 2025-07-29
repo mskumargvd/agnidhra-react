@@ -24,3 +24,5 @@ const Footer = ({ navigateTo }) => (
         </div>
     </footer>
 );
+
+export default Footer;
