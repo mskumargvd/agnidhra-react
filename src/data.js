@@ -101,7 +101,7 @@ export const pageBackgrounds = {
     default: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop',
 };
 
-const quizQuestions = [
+export const quizQuestions = [
     {
         question: "Which area interests you the most?",
         options: [
@@ -229,4 +229,3 @@ export const freeResources = [
     }
 ];
 
-export default icons;
