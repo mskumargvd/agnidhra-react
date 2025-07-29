@@ -1,10 +1,11 @@
 import React from 'react';
-import { courses, instructors, faqs } from '../data';
+import { courses, instructors, faqs, icons } from '../data';
 import InstructorCard from '../components/InstructorCard';
 import QuizComponent from '../components/QuizComponent';
 import Testimonials from '../components/Testimonials';
 import FAQItem from '../components/FAQItem';
 import ContactForm from '../components/ContactForm';
+import Icon from '../components/Icon';
 
 const HomePage = ({ navigateTo, initialCourse }) => (
     <main className="container mx-auto px-6 py-12">
