@@ -1,5 +1,8 @@
 import React from 'react';
-import { Icon, icons } from '../data';
+ //   import { Icon, icons } from '../data';
+
+import Icon from './components/Icon'; 
+import icons from './components/Icon'; 
 
 const Footer = ({ navigateTo }) => (
     <footer className="bg-black/50 text-white py-8">
