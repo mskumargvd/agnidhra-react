@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { courses, quizQuestions, Icon } from '../data';
+import { courses, quizQuestions, icons } from '../data';
+import Icon from './Icon';
 
 const QuizComponent = ({ navigateTo }) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -58,7 +59,9 @@ const QuizComponent = ({ navigateTo }) => {
             <div className="max-w-4xl mx-auto text-center">
                 <h2 className="text-3xl font-bold text-white mb-4">Your Recommended Course Is:</h2>
                 <div className="quiz-card bg-gray-800 p-8 rounded-lg shadow-lg inline-block">
-                    <div className="text-[#ff7f50] mb-4">{result.icon}</div>
+                    <div className="text-[#ff7f50] mb-4">
+                        <Icon path={icons[result.iconKey]} className="w-16 h-16 mx-auto"/>
+                    </div>
                     <h3 className="text-2xl font-bold text-gray-100 mb-3">{result.title}</h3>
                     <p className="text-gray-400 max-w-md mx-auto">{result.description}</p>
                     <div className="mt-8 space-x-4">
