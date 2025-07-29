@@ -182,3 +182,49 @@ export const courseContent = {
         ]
     }
 };
+
+
+export const events = [
+    {
+        title: "Live Webinar: Intro to Ethical Hacking",
+        date: "August 15, 2025",
+        time: "7:00 PM IST",
+        description: "Join our lead instructor, Dr. Anjali Rao, for a free live webinar on the fundamentals of ethical hacking and penetration testing.",
+        instructor: "Dr. Anjali Rao",
+        link: "#"
+    },
+    {
+        title: "Workshop: Building Your First Cloud Server",
+        date: "August 22, 2025",
+        time: "6:00 PM IST",
+        description: "A hands-on workshop where you will learn to deploy and configure a secure web server on AWS from scratch.",
+        instructor: "Rajesh Kumar",
+        link: "#"
+    },
+    {
+        title: "AMA: Ask Me Anything about DevOps",
+        date: "September 5, 2025",
+        time: "8:00 PM IST",
+        description: "Have questions about a career in DevOps? Join our open Q&A session with industry experts.",
+        instructor: "Industry Panel",
+        link: "#"
+    }
+];
+
+export const freeResources = [
+    {
+        title: "E-Book: The Ultimate SOC Analyst Guide",
+        type: "E-Book",
+        description: "Our comprehensive guide to starting your career as a Security Operations Center analyst. Covers key concepts, tools, and interview tips."
+    },
+    {
+        title: "Whitepaper: The Future of Cloud Security",
+        type: "Whitepaper",
+        description: "Explore the latest trends in cloud security, including container security, serverless, and infrastructure as code best practices."
+    },
+    {
+        title: "Checklist: DevOps Pre-Flight Checklist",
+        type: "Checklist",
+        description: "A handy checklist to ensure your CI/CD pipelines are robust, secure, and ready for production deployment."
+    }
+];
