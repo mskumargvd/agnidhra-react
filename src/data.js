@@ -1,4 +1,3 @@
-
 export const icons = {
   cyberSecurity: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
   cloud: "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z",
@@ -180,7 +179,6 @@ export const courseContent = {
         ]
     }
 };
-
 
 export const events = [
     {
