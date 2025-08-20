@@ -12,6 +12,7 @@ import demoImage3 from './assets/demo3.png';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollButtons from './components/ScrollButtons';
+import PromotionModal from './components/PromotionModal'; // New component
 
 // Import Pages
 import HomePage from './pages/HomePage';
@@ -32,18 +33,32 @@ import SubmitTestimonialPage from './pages/SubmitTestimonialPage';
 import NotFoundPage from './pages/NotFoundPage';
 import EventsPage from './pages/EventsPage';
 import ResourcesPage from './pages/ResourcesPage';
+import UpcomingBatchPage from './pages/UpcomingBatchPage'; // New page
 
 // Import Data
 import { pageBackgrounds } from './data';
 
 // --- MAIN APP COMPONENT ---
 export default function App() {
+    // --- PROMOTION CONTROL ---
+    // Set this to `true` to show the promotional popup, `false` to hide it.
+    const PROMOTIONS_ENABLED = true;
+
     const [page, setPage] = useState('home');
     const [activeSlug, setActiveSlug] = useState(null);
     const [activeCourseId, setActiveCourseId] = useState(null);
     const [initialCourse, setInitialCourse] = useState('cyber-security');
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isPromoOpen, setIsPromoOpen] = useState(false);
+
+    useEffect(() => {
+        const hasSeenPromo = sessionStorage.getItem('promoSeen');
+        if (PROMOTIONS_ENABLED && !hasSeenPromo) {
+            setIsPromoOpen(true);
+            sessionStorage.setItem('promoSeen', 'true');
+        }
+    }, []);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -88,6 +103,8 @@ export default function App() {
                 return <EventsPage navigateTo={navigateTo} />;
             case 'resources':
                 return <ResourcesPage navigateTo={navigateTo} />;
+            case 'upcoming-batch':
+                return <UpcomingBatchPage navigateTo={navigateTo} />;
             case 'login':
                 return <LoginPage navigateTo={navigateTo} />;
             case 'signup':

@@ -50,6 +50,7 @@ const Header = ({ navigateTo, activePage, user }) => {
                 <div id="mobile-menu" className="md:hidden">
                     <ul className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                          <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Courses</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('upcoming-batch'); }} className="block px-3 py-2 rounded-md text-base font-bold text-[#ff7f50] hover:bg-[#374151]">Upcoming Batch</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('events'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Events</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('resources'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Resources</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Blog</a></li>
