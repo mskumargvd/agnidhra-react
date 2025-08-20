@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from './firebase';
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase";
 
 // Import Components
 import Header from './components/Header';
@@ -55,8 +57,18 @@ export default function App() {
     }, []);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+                try {
+                    const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+                    const role = userDoc.exists() ? userDoc.data().role : "student";
+                    setUser({ ...currentUser, role });
+                } catch (err) {
+                    setUser({ ...currentUser, role: "student" });
+                }
+            } else {
+                setUser(null);
+            }
             setLoading(false);
         });
         return () => unsubscribe(); // Cleanup subscription on unmount
@@ -104,7 +116,10 @@ export default function App() {
             case 'signup':
                 return <SignupPage navigateTo={navigateTo} />;
             case 'dashboard':
-                return user ? <DashboardPage user={user} navigateTo={navigateTo} /> : <LoginPage navigateTo={navigateTo} />;
+                if (!user) return <LoginPage navigateTo={navigateTo} />;
+                if (user.role === 'instructor') return <InstructorDashboardPage user={user} navigateTo={navigateTo} />;
+                if (user.role === 'admin') return <AdminDashboardPage user={user} navigateTo={navigateTo} />;
+                return <DashboardPage user={user} navigateTo={navigateTo} />;
             case 'course-content':
                 return user ? <CourseContentPage courseId={activeCourseId} navigateTo={navigateTo} /> : <LoginPage navigateTo={navigateTo} />;
             case 'cyber-security':
