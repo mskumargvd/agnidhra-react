@@ -76,7 +76,7 @@ export const testimonials = [
 ];
 
 export const instructors = [
-  { name: "Santosh Kumar", title: "Instructor, Cybersecurity(SOC), Cloud & DevOps", expertise: " 8+ years in cloud infrastructure, 3+ years as SOC Analyst.", avatar: "https://placehold.co/200x200/4A5568/E2E8F0?text=RK" },
+    { name: "Santosh Kumar", title: "Instructor, Cybersecurity(SOC), Cloud & DevOps", expertise: " 8+ years in cloud infrastructure, 3+ years as SOC Analyst.", avatar: "https://placehold.co/200x200/4A5568/E2E8F0?text=RK" },
 ];
 
 export const faqs = [
