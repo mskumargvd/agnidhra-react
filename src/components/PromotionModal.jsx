@@ -1,6 +1,44 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const PromotionModal = ({ isOpen, onClose, navigateTo }) => {
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        // Focus trap
+        const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        const modalNode = modalRef.current;
+        const focusableEls = modalNode ? Array.from(modalNode.querySelectorAll(focusableSelectors)) : [];
+        const firstEl = focusableEls[0];
+        const lastEl = focusableEls[focusableEls.length - 1];
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+            if (e.key === 'Tab') {
+                if (focusableEls.length === 0) return;
+                if (e.shiftKey) {
+                    if (document.activeElement === firstEl) {
+                        e.preventDefault();
+                        lastEl.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastEl) {
+                        e.preventDefault();
+                        firstEl.focus();
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        if (firstEl) firstEl.focus();
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     const handleImageClick = () => {
@@ -9,7 +47,7 @@ const PromotionModal = ({ isOpen, onClose, navigateTo }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50" role="dialog" aria-modal="true" ref={modalRef}>
             <div className="bg-gray-800 p-6 rounded-lg shadow-2xl w-11/12 max-w-4xl relative">
                 <button 
                     onClick={onClose} 
