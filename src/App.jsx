@@ -2,17 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { auth } from './firebase';
 import { onAuthStateChanged } from "firebase/auth";
 
-// Import your images
-import demoImage1 from './assets/demo1.png';
-import demoImage2 from './assets/demo2.png';
-import demoImage3 from './assets/demo3.png';
-
-
 // Import Components
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollButtons from './components/ScrollButtons';
-import PromotionModal from './components/PromotionModal'; // New component
+import PromotionModal from './components/PromotionModal';
 
 // Import Pages
 import HomePage from './pages/HomePage';
@@ -33,7 +27,7 @@ import SubmitTestimonialPage from './pages/SubmitTestimonialPage';
 import NotFoundPage from './pages/NotFoundPage';
 import EventsPage from './pages/EventsPage';
 import ResourcesPage from './pages/ResourcesPage';
-import UpcomingBatchPage from './pages/UpcomingBatchPage'; // New page
+import UpcomingBatchPage from './pages/UpcomingBatchPage';
 
 // Import Data
 import { pageBackgrounds } from './data';
@@ -145,6 +139,8 @@ export default function App() {
     return (
         <PageWrapper bgImage={bgImage}>
             <Header navigateTo={navigateTo} activePage={page} user={user} />
+                {/* Promotion Modal Popup */}
+                <PromotionModal isOpen={isPromoOpen} onClose={() => setIsPromoOpen(false)} navigateTo={navigateTo} />
             {renderPage()}
             <Footer navigateTo={navigateTo} />
             <ScrollButtons />
