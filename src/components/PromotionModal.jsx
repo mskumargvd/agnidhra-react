@@ -21,25 +21,24 @@ const PromotionModal = ({ isOpen, onClose, navigateTo }) => {
                 <h2 className="text-2xl font-bold text-white text-center mb-4">New Batches Starting Soon!</h2>
                 
                 <div className="grid md:grid-cols-3 gap-4">
-                    {/* Replace these placeholders with your actual image URLs */}
-                    <img 
-                        src="../assets/demo1.png" 
-                        alt="Promotional Image 1" 
-                        className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                        onClick={handleImageClick}
-                    />
-                    <img 
-                        src="../assets/demo2.png" 
-                        alt="Promotional Image 2" 
-                        className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                        onClick={handleImageClick}
-                    />
-                    <img 
-                        src="../assets/demo3.png" 
-                        alt="Promotional Image 3" 
-                        className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                        onClick={handleImageClick}
-                    />
+                        <img 
+                            src="/assets/demo1.png" 
+                            alt="Promotional Image 1" 
+                            className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                            onClick={handleImageClick}
+                        />
+                        <img 
+                            src="/assets/demo2.png" 
+                            alt="Promotional Image 2" 
+                            className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                            onClick={handleImageClick}
+                        />
+                        <img 
+                            src="/assets/demo3.png" 
+                            alt="Promotional Image 3" 
+                            className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                            onClick={handleImageClick}
+                        />
                 </div>
                 <p className="text-center text-gray-400 text-sm mt-4">Click on any image to see batch details.</p>
             </div>
