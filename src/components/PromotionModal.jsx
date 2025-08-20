@@ -47,17 +47,16 @@ const PromotionModal = ({ isOpen, onClose, navigateTo }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50" role="dialog" aria-modal="true" ref={modalRef}>
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50" role="dialog" aria-modal="true" aria-labelledby="promotion-modal-title" ref={modalRef}>
             <div className="bg-gray-800 p-6 rounded-lg shadow-2xl w-11/12 max-w-4xl relative">
                 <button 
                     onClick={onClose} 
                     className="absolute top-3 right-3 text-gray-400 hover:text-white"
+                    aria-label="Close modal"
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
-                
-                <h2 className="text-2xl font-bold text-white text-center mb-4">New Batches Starting Soon!</h2>
-                
+                <h2 id="promotion-modal-title" className="text-2xl font-bold text-white text-center mb-4">New Batches Starting Soon!</h2>
                 <div className="grid md:grid-cols-3 gap-4">
                         <img 
                             src="/assets/demo1.png" 
