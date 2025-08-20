@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { auth } from './firebase';
 import { onAuthStateChanged } from "firebase/auth";
 
+// Your App.jsx
+import React, { useState, useEffect } from 'react';
+import Popup from './Popup'; // Assuming you created this file
+import './App.css'; 
+
+// Import your images
+import demoImage1 from './assets/demo1.png';
+import demoImage2 from './assets/demo2.png';
+import demoImage3 from './assets/demo3.png';
+
+
 // Import Components
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -127,4 +138,37 @@ export default function App() {
             <ScrollButtons />
         </PageWrapper>
     );
+
+      const [showPopup, setShowPopup] = useState(true);
+
+  const popupImages = [
+    { src: demoImage1, alt: 'Demo Class 1' },
+    { src: demoImage2, alt: 'Demo Class 2' },
+    { src: demoImage3, alt: 'Demo Class 3' },
+  ];
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+  
+  // Your other logic for the App component goes here...
+
+  return (
+    <div className="App">
+      {/* Conditionally render the Popup component */}
+      {showPopup && (
+        <Popup images={popupImages} onClose={handleClosePopup} />
+      )}
+      
+      {/* Your existing website content */}
+      <header>
+        {/* ... */}
+      </header>
+      <main>
+        {/* ... */}
+      </main>
+    </div>
+  );
+
 }
+
