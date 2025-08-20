@@ -35,7 +35,7 @@ const Header = ({ navigateTo, activePage, user }) => {
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="nav-link text-gray-300 font-medium pb-1">Contact</a></li>
                     {user ? (
                         <>
-                            <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('dashboard'); }} className="nav-link text-gray-300 font-medium pb-1">Dashboard</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('dashboard'); }} className={`nav-link font-medium pb-1 ${activePage === 'dashboard' ? 'text-[#ff7f50] active' : 'text-gray-300'}`}>Dashboard</a></li>
                             <li><button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">Logout</button></li>
                         </>
                     ) : (
@@ -57,7 +57,7 @@ const Header = ({ navigateTo, activePage, user }) => {
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Contact</a></li>
                         {user ? (
                             <>
-                                <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('dashboard'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Dashboard</a></li>
+                                <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('dashboard'); }} className={`block px-3 py-2 rounded-md text-base font-medium ${activePage === 'dashboard' ? 'text-[#ff7f50] bg-[#374151]' : 'text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]'}`}>Dashboard</a></li>
                                 <li><button onClick={handleLogout} className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-400 hover:text-red-300 hover:bg-[#374151]">Logout</button></li>
                             </>
                         ) : (
