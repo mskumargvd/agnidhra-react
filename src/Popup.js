@@ -9,7 +9,7 @@ const Popup = ({ images, onClose }) => {
         <button className="close-button" onClick={onClose}>
           &times;
         </button>
-        {images && images.map((image, index) => (
+        {images.map((image, index) => (
           <img
             key={index}
             src={image.src}
