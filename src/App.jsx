@@ -58,7 +58,7 @@ export default function App() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            console.log("Auth state changed"); // Add this line
+            console.log("Auth state changed, currentUser:", currentUser);
             if (currentUser) {
                 try {
                     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
