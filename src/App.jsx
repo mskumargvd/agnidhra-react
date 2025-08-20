@@ -63,6 +63,7 @@ export default function App() {
                     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
                     const role = userDoc.exists() ? userDoc.data().role : "student";
                     setUser({ ...currentUser, role });
+                    console.log("User after login:", { ...currentUser, role });
                 } catch (err) {
                     setUser({ ...currentUser, role: "student" });
                 }
