@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { auth } from './firebase';
 import { onAuthStateChanged } from "firebase/auth";
 
-// Your App.jsx
-import React, { useState, useEffect } from 'react';
 import Popup from './Popup'; // Assuming you created this file
 import './App.css'; 
 
