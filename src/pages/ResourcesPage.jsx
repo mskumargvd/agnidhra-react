@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Card from '../components/Card';
 import { freeResources } from '../data';
 
 const ResourceCard = ({ resource }) => {
@@ -13,10 +14,12 @@ const ResourceCard = ({ resource }) => {
     };
 
     return (
-        <div className="resource-card bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg flex flex-col">
-            <h3 className="text-2xl font-bold text-white mb-2">{resource.title}</h3>
-            <p className="text-sm text-gray-400 mb-3">{resource.type}</p>
-            <p className="text-gray-300 mb-4 flex-grow">{resource.description}</p>
+        <Card
+            title={resource.title}
+            subtitle={resource.type}
+            description={resource.description}
+            className="resource-card flex flex-col"
+        >
             {submitted ? (
                 <div className="text-center p-4 bg-green-500/20 text-green-300 rounded-lg">
                     <p>Thank you! Your download link has been sent to your email.</p>
@@ -36,7 +39,7 @@ const ResourceCard = ({ resource }) => {
                     </button>
                 </form>
             )}
-        </div>
+        </Card>
     );
 };
 

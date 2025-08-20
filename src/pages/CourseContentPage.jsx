@@ -3,7 +3,24 @@ import { courseContent } from '../data';
 import NotFoundPage from './NotFoundPage';
 
 const CourseContentPage = ({ courseId, navigateTo }) => {
+    const [loading, setLoading] = React.useState(false);
     const content = courseContent[courseId];
+
+    React.useEffect(() => {
+        setLoading(true);
+        const timer = setTimeout(() => setLoading(false), 500); // simulate 0.5s loading
+        return () => clearTimeout(timer);
+    }, [courseId]);
+
+    if (loading) {
+        return (
+            <main className="container mx-auto px-6 py-12">
+                <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 md:p-12 rounded-lg shadow-lg flex justify-center items-center" style={{ minHeight: '300px' }}>
+                    <div className="text-white text-xl animate-pulse">Loading course content...</div>
+                </div>
+            </main>
+        );
+    }
 
     if (!content) {
         return <NotFoundPage navigateTo={navigateTo} />;

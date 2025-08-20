@@ -1,6 +1,7 @@
 import React from 'react';
 import { icons } from '../data';
 import Icon from '../components/Icon';
+import CourseCard from '../components/CourseCard';
 
 const UpcomingBatchPage = ({ navigateTo }) => {
     // Course data
@@ -67,42 +68,15 @@ const UpcomingBatchPage = ({ navigateTo }) => {
             </div>
             <div className="grid md:grid-cols-3 gap-8">
                 {courses.map(course => (
-                    <div key={course.id} className="bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-lg flex flex-col justify-between">
-                        <div>
-                            <h2 className="text-2xl font-bold mb-4" style={{ color: course.color }}>{course.title}</h2>
-                            <h3 className="text-xl font-semibold text-white mb-2">Key Highlights</h3>
-                            <ul className="mb-4 text-gray-300 list-disc list-inside">
-                                {course.highlights.map((hl, idx) => (
-                                    <li key={idx}>{hl}</li>
-                                ))}
-                            </ul>
-                            <h3 className="text-xl font-semibold text-white mb-2">Career Opportunities</h3>
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                {course.careerOpportunities.map((role, idx) => (
-                                    <span key={idx} className="bg-gray-700 text-gray-200 text-xs font-medium px-3 py-1 rounded-full">{role}</span>
-                                ))}
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-2">Our Students Are Placed In</h3>
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                {course.placedIn.map((company, idx) => (
-                                    <span key={idx} className="text-gray-400 text-sm font-semibold">{company}</span>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="text-center mt-6">
-                            <a
-                                href="#contact"
-                                onClick={e => {
-                                    e.preventDefault();
-                                    navigateTo('home', { sectionId: 'contact', course: course.id });
-                                }}
-                                className="font-semibold px-6 py-3 rounded-lg shadow-lg transition-colors duration-300 text-base"
-                                style={{ backgroundColor: course.color, color: '#fff' }}
-                            >
-                                Enroll Now & Secure Your Spot
-                            </a>
-                        </div>
-                    </div>
+                    <CourseCard
+                        key={course.id}
+                        title={course.title}
+                        highlights={course.highlights}
+                        careerOpportunities={course.careerOpportunities}
+                        placedIn={course.placedIn}
+                        color={course.color}
+                        onEnroll={() => navigateTo('home', { sectionId: 'contact', course: course.id })}
+                    />
                 ))}
             </div>
         </main>
