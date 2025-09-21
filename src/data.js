@@ -76,14 +76,10 @@ export const testimonials = [
 ];
 
 export const instructors = [
-<<<<<<< HEAD
-    { name: "Santosh Kumar", title: "Instructor, Cybersecurity(SOC), Cloud & DevOps", expertise: " 8+ years in cloud infrastructure, 3+ years as SOC Analyst.", avatar: "https://placehold.co/200x200/4A5568/E2E8F0?text=RK" },
-=======
   { name: "Dr. Anjali Rao", title: "Lead Instructor, Cybersecurity", expertise: "CISSP, CEH, 15+ years in threat intelligence.", avatar: "https://placehold.co/200x200/4A5568/E2E8F0?text=AR" },
   { name: "Rajesh Kumar", title: "Lead Instructor, Cloud & DevOps", expertise: "AWS Certified Solutions Architect, 12+ years in cloud infrastructure.", avatar: "https://placehold.co/200x200/4A5568/E2E8F0?text=RK" },
   { name: "Sandeep Verma", title: "Instructor, AI & Data Science", expertise: "Ph.D. in Machine Learning, 10+ years in AI research.", avatar: "https://placehold.co/200x200/4A5568/E2E8F0?text=SV" },
->>>>>>> parent of 1be1453 (instructors update)
-];
+ ];
 
 export const faqs = [
   { q: "Are these courses suitable for beginners?", a: "Yes! Our fundamentals courses are designed for beginners with no prior experience. For advanced courses, some prerequisites like basic networking or programming knowledge are recommended." },
