@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from './firebase';
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 // Import Pages
 import HomePage from './pages/HomePage';
@@ -21,7 +21,7 @@ import SubmitTestimonialPage from './pages/SubmitTestimonialPage';
 import NotFoundPage from './pages/NotFoundPage';
 import EventsPage from './pages/EventsPage';
 import ResourcesPage from './pages/ResourcesPage';
-import UpcomingBatchPage from './pages/UpcomingBatchPage'; // New page
+import UpcomingBatchPage from './pages/UpcomingBatchPage';// New page
 
 // Import Components
 import Header from './components/Header';
@@ -40,9 +40,6 @@ const firebaseConfig = {
     messagingSenderId: "484039318334",
     appId: "1:484039318334:web:03a75c9183855ada36ea6f"
 };
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 function App() {
     // --- PROMOTION CONTROL ---
@@ -147,22 +144,29 @@ function App() {
         }
     };
 
-    const bgImage = pageBackgrounds[page] || pageBackgrounds.default;
 
-    const PageWrapper = ({ bgImage, children }) => (
-        <div className="page-wrapper" style={{ backgroundImage: `url(${bgImage})` }}>
-            <div className="page-content">{children}</div>
-        </div>
-    );
 
     return (
-        <PageWrapper bgImage={bgImage}>
-            <PromotionModal isOpen={isPromoOpen} onClose={() => setIsPromoOpen(false)} navigateTo={navigateTo} />
-            <Header navigateTo={navigateTo} activePage={page} user={user} />
-            {renderPage()}
-            <Footer navigateTo={navigateTo} />
-            <ScrollButtons />
-        </PageWrapper>
+        <>
+            <PromotionModal 
+                isOpen={isPromoOpen} 
+                onClose={() => setIsPromoOpen(false)} 
+                navigateTo={navigateTo}
+            />
+            {/* The main content gets blurred when the modal is open */}
+            <div className={`bg-gray-900 text-gray-200 font-sans antialiased transition-all duration-500 ${isPromoOpen ? 'blur-md brightness-50 pointer-events-none' : ''}`}>
+                <Header 
+                    navigateTo={navigateTo} 
+                    activePage={page} 
+                    user={user} 
+                    handleLogout={handleLogout} 
+                />
+                <main>
+                    {renderPage()}
+                </main>
+                {/* Add Footer component here if you have one */}
+            </div>
+        </>
     );
 }
 
