@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
+import { auth } from '../firebase';
+import { signOut } from "firebase/auth";
+import Icon from './Icon';
+import { icons } from '../data';
 
-const Header = ({ navigateTo, activePage, user, handleLogout }) => {
+const Header = ({ navigateTo, activePage, user }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleNavClick = (page, sectionId = null) => {
         navigateTo(page, { sectionId });
         setIsMobileMenuOpen(false);
+    };
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigateTo('home');
+        } catch (error) {
+            console.error("Error signing out: ", error);
+        }
     };
 
     return (
@@ -17,9 +30,7 @@ const Header = ({ navigateTo, activePage, user, handleLogout }) => {
                 </a>
                 <ul className="hidden md:flex space-x-8 items-center">
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="nav-link text-gray-300 font-medium pb-1">Courses</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('upcoming-batch'); }} className="nav-link text-orange-400 font-semibold pb-1 animate-pulse">Upcoming Batch</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('events'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'events' ? 'active' : ''}`}>Events</a></li>
-                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('resources'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'resources' ? 'active' : ''}`}>Resources</a></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('upcoming-batch'); }} className={`nav-link text-[#ff7f50] font-bold pb-1 ${activePage === 'upcoming-batch' ? 'active' : ''}`}>Upcoming Batch</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className={`nav-link text-gray-300 font-medium pb-1 ${activePage === 'blog' || activePage === 'article' ? 'active' : ''}`}>Blog</a></li>
                     <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="nav-link text-gray-300 font-medium pb-1">Contact</a></li>
                     {user ? (
@@ -38,10 +49,8 @@ const Header = ({ navigateTo, activePage, user, handleLogout }) => {
             {isMobileMenuOpen && (
                 <div id="mobile-menu" className="md:hidden">
                     <ul className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Courses</a></li>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('upcoming-batch'); }} className="block px-3 py-2 rounded-md text-base font-medium text-orange-400 hover:text-orange-300 hover:bg-[#374151]">Upcoming Batch</a></li>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('events'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Events</a></li>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('resources'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Resources</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'courses'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Courses</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('upcoming-batch'); }} className="block px-3 py-2 rounded-md text-base font-bold text-[#ff7f50] hover:bg-[#374151]">Upcoming Batch</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('blog'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Blog</a></li>
                         <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home', 'contact'); }} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-[#ff7f50] hover:bg-[#374151]">Contact</a></li>
                         {user ? (
@@ -60,4 +69,3 @@ const Header = ({ navigateTo, activePage, user, handleLogout }) => {
 };
 
 export default Header;
-
