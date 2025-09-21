@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from './firebase';
+import { onAuthStateChanged } from "firebase/auth";
 
 // Import Pages
 import HomePage from './pages/HomePage';
-import CourseDetailPage from './pages/CourseDetailPage';
 import BlogPage from './pages/BlogPage';
 import ArticlePage from './pages/ArticlePage';
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
+import CourseContentPage from './pages/CourseContentPage';
+import CyberSecurityPage from './pages/CyberSecurityPage';
+import CloudComputingPage from './pages/CloudComputingPage';
+import DevOpsPage from './pages/DevOpsPage';
+import AIPage from './pages/AIPage';
+import DataEngineeringPage from './pages/DataEngineeringPage';
+import DisclaimerPage from './pages/DisclaimerPage';
+import TermsPage from './pages/TermsPage';
+import SubmitTestimonialPage from './pages/SubmitTestimonialPage';
+import NotFoundPage from './pages/NotFoundPage';
 import EventsPage from './pages/EventsPage';
 import ResourcesPage from './pages/ResourcesPage';
-import UpcomingBatchPage from './pages/UpcomingBatchPage';
+import UpcomingBatchPage from './pages/UpcomingBatchPage'; // New page
 
 // Import Components
 import Header from './components/Header';
-import PromotionModal from './components/PromotionModal';
+import Footer from './components/Footer';
+import ScrollButtons from './components/ScrollButtons';
+import PromotionModal from './components/PromotionModal'; // New component
+
+// Import Data
+import { pageBackgrounds } from './data';
 
 const firebaseConfig = {
     apiKey: "AIzaSyACSDK7vfjEvWj7AyKJqLfcNaRmIIdr1_k",
@@ -91,42 +106,63 @@ function App() {
         }
 
         switch (page) {
-            case 'course-detail':
-                return <CourseDetailPage navigateTo={navigateTo} {...pageProps} />;
+            case 'home':
+                return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
             case 'blog':
                 return <BlogPage navigateTo={navigateTo} />;
             case 'article':
-                return <ArticlePage navigateTo={navigateTo} {...pageProps} />;
-            case 'login':
-                return <LoginPage navigateTo={navigateTo} user={user} />;
-            case 'dashboard':
-                return <DashboardPage navigateTo={navigateTo} user={user} />;
+                return <ArticlePage navigateTo={navigateTo} slug={activeSlug} />;
             case 'events':
                 return <EventsPage navigateTo={navigateTo} />;
             case 'resources':
                 return <ResourcesPage navigateTo={navigateTo} />;
             case 'upcoming-batch':
-                 return <UpcomingBatchPage navigateTo={navigateTo} />;
-            case 'home':
+                return <UpcomingBatchPage navigateTo={navigateTo} />;
+            case 'login':
+                return <LoginPage navigateTo={navigateTo} />;
+            case 'signup':
+                return <SignupPage navigateTo={navigateTo} />;
+            case 'dashboard':
+                return user ? <DashboardPage user={user} navigateTo={navigateTo} /> : <LoginPage navigateTo={navigateTo} />;
+            case 'course-content':
+                return user ? <CourseContentPage courseId={activeCourseId} navigateTo={navigateTo} /> : <LoginPage navigateTo={navigateTo} />;
+            case 'cyber-security':
+                return <CyberSecurityPage navigateTo={navigateTo} />;
+            case 'cloud-computing':
+                return <CloudComputingPage navigateTo={navigateTo} />;
+            case 'devops':
+                return <DevOpsPage navigateTo={navigateTo} />;
+            case 'ai':
+                return <AIPage navigateTo={navigateTo} />;
+            case 'data-engineering':
+                return <DataEngineeringPage navigateTo={navigateTo} />;
+            case 'disclaimer':
+                return <DisclaimerPage />;
+            case 'terms':
+                return <TermsPage />;
+            case 'submit-testimonial':
+                return <SubmitTestimonialPage />;
             default:
-                return <HomePage navigateTo={navigateTo} {...pageProps} />;
+                return <NotFoundPage navigateTo={navigateTo} />;
         }
     };
 
+    const bgImage = pageBackgrounds[page] || pageBackgrounds.default;
+
+    const PageWrapper = ({ bgImage, children }) => (
+        <div className="page-wrapper" style={{ backgroundImage: `url(${bgImage})` }}>
+            <div className="page-content">{children}</div>
+        </div>
+    );
+
     return (
-        <>
-            <PromotionModal 
-                isOpen={isPromoOpen} 
-                onClose={() => setIsPromoOpen(false)} 
-                navigateTo={navigateTo}
-            />
-            <div className={`bg-gray-900 text-gray-200 font-sans antialiased transition-all duration-500 ${isPromoOpen ? 'blur-md brightness-50' : ''}`}>
-                <Header navigateTo={navigateTo} activePage={page} user={user} handleLogout={handleLogout} />
-                <main>
-                    {renderPage()}
-                </main>
-            </div>
-        </>
+        <PageWrapper bgImage={bgImage}>
+            <PromotionModal isOpen={isPromoOpen} onClose={() => setIsPromoOpen(false)} navigateTo={navigateTo} />
+            <Header navigateTo={navigateTo} activePage={page} user={user} />
+            {renderPage()}
+            <Footer navigateTo={navigateTo} />
+            <ScrollButtons />
+        </PageWrapper>
     );
 }
 
