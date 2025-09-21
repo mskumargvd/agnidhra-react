@@ -7,6 +7,41 @@ import FAQItem from '../components/FAQItem';
 import ContactForm from '../components/ContactForm';
 import Icon from '../components/Icon';
 
+const Hero = ({ navigateTo }) => (
+    <section id="home" className="text-center py-20 md:py-32">
+        <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-down">Agnidhra Technologies</h1>
+        <p className="text-lg md:text-2xl text-orange-400 mb-8 animate-fade-in-up">Redefining Future, Transforming Dreams!</p>
+        <button
+            onClick={() => document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-orange-500 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-orange-600 transition-all transform hover:scale-105"
+        >
+            Explore Our Courses
+        </button>
+    </section>
+);
+
+const Courses = ({ navigateTo }) => (
+    <section id="courses" className="py-20 bg-gray-900/50 backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Our Training Programs</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {courses.map(course => (
+                    <div key={course.id} className="bg-gray-800 p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform">
+                        <div className="bg-orange-500/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                            <Icon name={course.icon} className="w-10 h-10 text-orange-400" />
+                        </div>
+                        <h3 className="text-2xl font-bold mb-4">{course.title}</h3>
+                        <p className="text-gray-400 mb-6">{course.description}</p>
+                        <button onClick={() => navigateTo(course.id)} className="text-orange-400 font-semibold hover:text-orange-300">
+                            Learn More &rarr;
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+);
+
 const HomePage = ({ navigateTo, initialCourse }) => (
     <main className="container mx-auto px-6 py-12">
         <section id="home" className="text-center py-20">

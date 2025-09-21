@@ -1,9 +1,41 @@
 import React from 'react';
+import { icons } from '../data.js';
 
-const Icon = ({ path, className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d={path} />
-  </svg>
-);
+const Icon = ({ name, className }) => {
+    const path = icons[name];
+
+    if (!path) {
+        // Return a default placeholder icon if the name is not found
+        return (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={className}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+            >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.546-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+            </svg>
+        );
+    }
+
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5} // Adjusted stroke width for better aesthetics
+        >
+            <path strokeLinecap="round" strokeLinejoin="round" d={path} />
+        </svg>
+    );
+};
 
 export default Icon;
