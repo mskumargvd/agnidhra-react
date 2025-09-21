@@ -1,65 +1,83 @@
 import React from 'react';
+import { icons } from '../data';
+import Icon from '../components/Icon';
+import CourseCard from '../components/CourseCard';
 
 const UpcomingBatchPage = ({ navigateTo }) => {
-    const careerOpportunities = [
-        "SOC Analyst (Network Security Focus)", "Threat Detection Engineer", "Cloud Network Security Engineer",
-        "Penetration Tester (Web, Network, Wireless, Cloud)", "Red Team Operator", "Bug Bounty Hunter",
-        "Cloud Security Engineer", "DevSecOps Engineer", "Container Security Specialist"
-    ];
-
-    const placedInCompanies = [
-        "Cognizant", "Microsoft", "Wipro", "Amazon", "Capgemini", "Uber", "Micron", "Hexaware", "S&P Global"
+    // Course data
+    const courses = [
+        {
+            id: 'cyber-security',
+            title: 'Cyber Security New Batch',
+            highlights: [
+                'Cyber Lab Access: Full access to our state-of-the-art cyber labs for hands-on training.',
+                'Expert-Led Training: Direct training and mentorship from top industry CISOs and security experts.',
+                'LMS Video Access: 24/7 access to all session recordings and materials through our LMS.'
+            ],
+            careerOpportunities: [
+                'SOC Analyst (Network Security Focus)', 'Threat Detection Engineer', 'Cloud Network Security Engineer',
+                'Penetration Tester (Web, Network, Wireless, Cloud)', 'Red Team Operator', 'Bug Bounty Hunter',
+                'Cloud Security Engineer', 'DevSecOps Engineer', 'Container Security Specialist'
+            ],
+            placedIn: [
+                'Cognizant', 'Microsoft', 'Wipro', 'Amazon', 'Capgemini', 'Uber', 'Micron', 'Hexaware', 'S&P Global'
+            ],
+            color: '#ff7f50'
+        },
+        {
+            id: 'devops',
+            title: 'DevOps New Batch',
+            highlights: [
+                'Hands-on CI/CD Labs: Practice with real-world DevOps pipelines and automation tools.',
+                'Industry Mentors: Learn from DevOps architects and cloud automation experts.',
+                'LMS Video Access: 24/7 access to all session recordings and materials.'
+            ],
+            careerOpportunities: [
+                'DevOps Engineer', 'Site Reliability Engineer', 'Cloud Automation Specialist',
+                'CI/CD Pipeline Architect', 'Infrastructure as Code Engineer', 'Platform Engineer'
+            ],
+            placedIn: [
+                'Amazon', 'Microsoft', 'Infosys', 'TCS', 'Wipro', 'Capgemini', 'Google', 'IBM', 'Deloitte'
+            ],
+            color: '#38bdf8'
+        },
+        {
+            id: 'cloud-computing',
+            title: 'Cloud Computing New Batch',
+            highlights: [
+                'Multi-Cloud Labs: Work on AWS, Azure, and GCP environments.',
+                'Cloud Solution Architects: Training by certified cloud professionals.',
+                'LMS Video Access: 24/7 access to all session recordings and materials.'
+            ],
+            careerOpportunities: [
+                'Cloud Engineer', 'Cloud Solution Architect', 'Cloud Security Specialist',
+                'Cloud Migration Specialist', 'Cloud DevOps Engineer', 'Cloud Consultant'
+            ],
+            placedIn: [
+                'Google', 'Microsoft', 'Amazon', 'Accenture', 'Cognizant', 'Wipro', 'HCL', 'TCS', 'Oracle'
+            ],
+            color: '#a3e635'
+        }
     ];
 
     return (
-        <main className="container mx-auto px-6 py-12">
-            <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 md:p-12 rounded-lg shadow-lg">
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Cyber Security New Batch</h1>
-                    <p className="text-lg text-[#ff7f50] font-semibold">Transforming Dreams! Redefining Future!</p>
-                </div>
-
-                <section className="mb-12">
-                    <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-700 pb-3">Key Highlights</h2>
-                    <div className="grid md:grid-cols-3 gap-8 text-center">
-                        <div className="bg-gray-800/50 p-6 rounded-lg">
-                            <h3 className="text-xl font-bold text-[#ff7f50] mb-2">Cyber Lab Access</h3>
-                            <p className="text-gray-300">Full access to our state-of-the-art cyber labs for hands-on training.</p>
-                        </div>
-                        <div className="bg-gray-800/50 p-6 rounded-lg">
-                            <h3 className="text-xl font-bold text-[#ff7f50] mb-2">Expert-Led Training</h3>
-                            <p className="text-gray-300">Direct training and mentorship from top industry CISOs and security experts.</p>
-                        </div>
-                        <div className="bg-gray-800/50 p-6 rounded-lg">
-                            <h3 className="text-xl font-bold text-[#ff7f50] mb-2">LMS Video Access</h3>
-                            <p className="text-gray-300">24/7 access to all session recordings and materials through our LMS.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section className="mb-12">
-                    <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-700 pb-3">Career Opportunities After This Course</h2>
-                    <div className="flex flex-wrap justify-center gap-3">
-                        {careerOpportunities.map((role, index) => (
-                            <span key={index} className="bg-gray-700 text-gray-200 text-sm font-medium px-4 py-2 rounded-full">{role}</span>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="mb-12">
-                    <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-700 pb-3">Our Students Are Placed In</h2>
-                    <div className="flex flex-wrap justify-center items-center gap-4">
-                        {placedInCompanies.map((company, index) => (
-                            <span key={index} className="text-gray-400 text-lg font-semibold">{company}</span>
-                        ))}
-                    </div>
-                </section>
-
-                <div className="text-center mt-12">
-                     <a href="#contact" onClick={(e) => { e.preventDefault(); navigateTo('home', { sectionId: 'contact', course: 'cyber-security' }); }} className="bg-[#ff7f50] text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:bg-opacity-90 transition-colors duration-300 text-lg">
-                        Enroll Now & Secure Your Spot
-                    </a>
-                </div>
+        <main className="container mx-auto px-4 py-12">
+            <div className="text-center mb-12">
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Upcoming Batches</h1>
+                <p className="text-lg text-[#ff7f50] font-semibold">Transforming Dreams! Redefining Future!</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+                {courses.map(course => (
+                    <CourseCard
+                        key={course.id}
+                        title={course.title}
+                        highlights={course.highlights}
+                        careerOpportunities={course.careerOpportunities}
+                        placedIn={course.placedIn}
+                        color={course.color}
+                        onEnroll={() => navigateTo('home', { sectionId: 'contact', course: course.id })}
+                    />
+                ))}
             </div>
         </main>
     );
