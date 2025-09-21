@@ -18,12 +18,12 @@ import Header from './components/Header';
 import PromotionModal from './components/PromotionModal';
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyACSDK7vfjEvWj7AyKJqLfcNaRmIIdr1_k",
+    authDomain: "agnidhra-website-auth.firebaseapp.com",
+    projectId: "agnidhra-website-auth",
+    storageBucket: "agnidhra-website-auth.firebasestorage.app",
+    messagingSenderId: "484039318334",
+    appId: "1:484039318334:web:03a75c9183855ada36ea6f"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -31,6 +31,7 @@ const auth = getAuth(app);
 
 function App() {
     // --- PROMOTION CONTROL ---
+     // Set this to true to enable the popup on the homepage
     const PROMOTIONS_ENABLED = true;
 
     const [page, setPage] = useState('home');
@@ -39,6 +40,7 @@ function App() {
     const [isAuthReady, setIsAuthReady] = useState(false);
     const [isPromoOpen, setIsPromoOpen] = useState(false);
 
+          // Authentication Listener
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -47,16 +49,26 @@ function App() {
         return () => unsubscribe();
     }, []);
 
+       // ** DIAGNOSTIC PROMO MODAL LOGIC **
     useEffect(() => {
-        const hasSeenPromo = sessionStorage.getItem('promoSeen');
-        if (PROMOTIONS_ENABLED && !hasSeenPromo) {
-            const timer = setTimeout(() => {
-                setIsPromoOpen(true);
-                sessionStorage.setItem('promoSeen', 'true');
-            }, 1500);
-            return () => clearTimeout(timer);
+        console.log("Promo effect triggered. Current page:", page); 
+        if (page === 'home') {
+            const hasSeenPromo = sessionStorage.getItem('promoSeen');
+            console.log("Has promo been seen in this session?", hasSeenPromo);
+
+            if (PROMOTIONS_ENABLED && !hasSeenPromo) {
+                console.log("Setting a 1.5s timer to show the promo modal.");
+                const timer = setTimeout(() => {
+                    console.log("✅ Timer finished. Showing promo modal now!");
+                    setIsPromoOpen(true);
+                    sessionStorage.setItem('promoSeen', 'true');
+                }, 1500);
+                return () => clearTimeout(timer);
+            } else {
+                 console.log("Modal will not be shown (already seen or disabled).");
+            }
         }
-    }, []);
+    }, [page]); // This effect runs when the page changes
 
     const navigateTo = (targetPage, props = {}) => {
         setPage(targetPage);
