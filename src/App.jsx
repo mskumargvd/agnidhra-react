@@ -32,15 +32,6 @@ import PromotionModal from './components/PromotionModal'; // New component
 // Import Data
 import { pageBackgrounds } from './data';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyACSDK7vfjEvWj7AyKJqLfcNaRmIIdr1_k",
-    authDomain: "agnidhra-website-auth.firebaseapp.com",
-    projectId: "agnidhra-website-auth",
-    storageBucket: "agnidhra-website-auth.firebasestorage.app",
-    messagingSenderId: "484039318334",
-    appId: "1:484039318334:web:03a75c9183855ada36ea6f"
-};
-
 function App() {
     // --- PROMOTION CONTROL ---
      // Set this to true to enable the popup on the homepage
