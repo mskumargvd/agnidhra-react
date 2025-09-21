@@ -1,168 +1,122 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from './firebase';
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "./firebase";
-
-// Import Components
-import Header from './components/Header';
-import Footer from './components/Footer';
-import ScrollButtons from './components/ScrollButtons';
-import PromotionModal from './components/PromotionModal';
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 // Import Pages
 import HomePage from './pages/HomePage';
+import CourseDetailPage from './pages/CourseDetailPage';
 import BlogPage from './pages/BlogPage';
 import ArticlePage from './pages/ArticlePage';
 import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
-import CourseContentPage from './pages/CourseContentPage';
-import CyberSecurityPage from './pages/CyberSecurityPage';
-import CloudComputingPage from './pages/CloudComputingPage';
-import DevOpsPage from './pages/DevOpsPage';
-import AIPage from './pages/AIPage';
-import DataEngineeringPage from './pages/DataEngineeringPage';
-import DisclaimerPage from './pages/DisclaimerPage';
-import TermsPage from './pages/TermsPage';
-import SubmitTestimonialPage from './pages/SubmitTestimonialPage';
-import NotFoundPage from './pages/NotFoundPage';
 import EventsPage from './pages/EventsPage';
 import ResourcesPage from './pages/ResourcesPage';
 import UpcomingBatchPage from './pages/UpcomingBatchPage';
 
-// Import Data
-import { pageBackgrounds } from './data';
+// Import Components
+import Header from './components/Header';
+import PromotionModal from './components/PromotionModal';
 
-// --- MAIN APP COMPONENT ---
-export default function App() {
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+function App() {
     // --- PROMOTION CONTROL ---
-    // Set this to `true` to show the promotional popup, `false` to hide it.
     const PROMOTIONS_ENABLED = true;
 
     const [page, setPage] = useState('home');
-    const [activeSlug, setActiveSlug] = useState(null);
-    const [activeCourseId, setActiveCourseId] = useState(null);
-    const [initialCourse, setInitialCourse] = useState('cyber-security');
+    const [pageProps, setPageProps] = useState({});
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [isAuthReady, setIsAuthReady] = useState(false);
     const [isPromoOpen, setIsPromoOpen] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setIsAuthReady(true);
+        });
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         const hasSeenPromo = sessionStorage.getItem('promoSeen');
         if (PROMOTIONS_ENABLED && !hasSeenPromo) {
-            setIsPromoOpen(true);
-            sessionStorage.setItem('promoSeen', 'true');
+            const timer = setTimeout(() => {
+                setIsPromoOpen(true);
+                sessionStorage.setItem('promoSeen', 'true');
+            }, 1500);
+            return () => clearTimeout(timer);
         }
     }, []);
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            console.log("Auth state changed, currentUser:", currentUser);
-            if (currentUser) {
-                try {
-                    const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-                    const role = userDoc.exists() ? userDoc.data().role : "student";
-                    setUser({ ...currentUser, role });
-                    console.log("User after login:", { ...currentUser, role });
-                } catch (err) {
-                    setUser({ ...currentUser, role: "student" });
-                }
-            } else {
-                setUser(null);
-            }
-            setLoading(false);
-        });
-        return () => unsubscribe(); // Cleanup subscription on unmount
-    }, []);
-
-    const navigateTo = (targetPage, options = {}) => {
-        const { sectionId = null, course = null, slug = null, courseId = null } = options;
-        
-        if (course) setInitialCourse(course);
-        if (slug) setActiveSlug(slug);
-        else setActiveSlug(null);
-        if (courseId) setActiveCourseId(courseId);
-        else setActiveCourseId(null);
-        
+    const navigateTo = (targetPage, props = {}) => {
         setPage(targetPage);
+        setPageProps(props);
+        window.scrollTo(0, 0);
+    };
 
-        setTimeout(() => {
-            if (sectionId) {
-                document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }, 0);
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigateTo('home');
+        } catch (error) {
+            console.error("Error signing out: ", error);
+        }
     };
 
     const renderPage = () => {
-        if (loading) {
-            return <div className="flex justify-center items-center h-screen"><div className="text-white text-2xl">Loading...</div></div>;
+        if (!isAuthReady) {
+            return <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading...</div>;
         }
+
         switch (page) {
-            case 'home':
-                return <HomePage navigateTo={navigateTo} initialCourse={initialCourse} />;
+            case 'course-detail':
+                return <CourseDetailPage navigateTo={navigateTo} {...pageProps} />;
             case 'blog':
                 return <BlogPage navigateTo={navigateTo} />;
             case 'article':
-                return <ArticlePage navigateTo={navigateTo} slug={activeSlug} />;
+                return <ArticlePage navigateTo={navigateTo} {...pageProps} />;
+            case 'login':
+                return <LoginPage navigateTo={navigateTo} user={user} />;
+            case 'dashboard':
+                return <DashboardPage navigateTo={navigateTo} user={user} />;
             case 'events':
                 return <EventsPage navigateTo={navigateTo} />;
             case 'resources':
                 return <ResourcesPage navigateTo={navigateTo} />;
             case 'upcoming-batch':
-                return <UpcomingBatchPage navigateTo={navigateTo} />;
-            case 'login':
-                return <LoginPage navigateTo={navigateTo} />;
-            case 'signup':
-                return <SignupPage navigateTo={navigateTo} />;
-            case 'dashboard':
-                if (!user) return <LoginPage navigateTo={navigateTo} />;
-                if (user.role === 'instructor') return <InstructorDashboardPage user={user} navigateTo={navigateTo} />;
-                if (user.role === 'admin') return <AdminDashboardPage user={user} navigateTo={navigateTo} />;
-                return <DashboardPage user={user} navigateTo={navigateTo} />;
-            case 'course-content':
-                return user ? <CourseContentPage courseId={activeCourseId} navigateTo={navigateTo} /> : <LoginPage navigateTo={navigateTo} />;
-            case 'cyber-security':
-                return <CyberSecurityPage navigateTo={navigateTo} />;
-            case 'cloud-computing':
-                return <CloudComputingPage navigateTo={navigateTo} />;
-            case 'devops':
-                return <DevOpsPage navigateTo={navigateTo} />;
-            case 'ai':
-                return <AIPage navigateTo={navigateTo} />;
-            case 'data-engineering':
-                return <DataEngineeringPage navigateTo={navigateTo} />;
-            case 'disclaimer':
-                return <DisclaimerPage />;
-            case 'terms':
-                return <TermsPage />;
-            case 'submit-testimonial':
-                return <SubmitTestimonialPage />;
+                 return <UpcomingBatchPage navigateTo={navigateTo} />;
+            case 'home':
             default:
-                return <NotFoundPage navigateTo={navigateTo} />;
+                return <HomePage navigateTo={navigateTo} {...pageProps} />;
         }
     };
-    
-    const bgImage = pageBackgrounds[page] || pageBackgrounds.default;
-
-    const PageWrapper = ({ bgImage, children }) => (
-        <div className="page-wrapper" style={{ backgroundImage: `url(${bgImage})` }}>
-            <div className="page-content">{children}</div>
-        </div>
-    );
 
     return (
-        <PageWrapper bgImage={bgImage}>
-            <Header navigateTo={navigateTo} activePage={page} user={user} />
-                {/* Promotion Modal Popup */}
-                <PromotionModal isOpen={isPromoOpen} onClose={() => setIsPromoOpen(false)} navigateTo={navigateTo} />
-            {renderPage()}
-            <Footer navigateTo={navigateTo} />
-            <ScrollButtons />
-        </PageWrapper>
+        <>
+            <PromotionModal 
+                isOpen={isPromoOpen} 
+                onClose={() => setIsPromoOpen(false)} 
+                navigateTo={navigateTo}
+            />
+            <div className={`bg-gray-900 text-gray-200 font-sans antialiased transition-all duration-500 ${isPromoOpen ? 'blur-md brightness-50' : ''}`}>
+                <Header navigateTo={navigateTo} activePage={page} user={user} handleLogout={handleLogout} />
+                <main>
+                    {renderPage()}
+                </main>
+            </div>
+        </>
     );
+}
 
- }
+export default App;
 
