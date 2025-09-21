@@ -25,7 +25,7 @@ const Header = ({ navigateTo, activePage, user }) => {
         <header className="bg-gray-900/50 backdrop-blur-sm shadow-lg shadow-black/20 sticky top-0 z-50">
             <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
                 <a href="#" onClick={(e) => { e.preventDefault(); handleNavClick('home'); }} className="flex items-center space-x-3">
-                    <img src="/logo v2.png" alt="Agnidhra Technologies Logo" className="w-9 h-9"/>
+                    <img src="/logo.png" alt="Agnidhra Technologies Logo" className="w-9 h-9"/>
                     <span className="text-2xl font-bold text-gray-100">Agnidhra Technologies</span>
                 </a>
                 <ul className="hidden md:flex space-x-8 items-center">
